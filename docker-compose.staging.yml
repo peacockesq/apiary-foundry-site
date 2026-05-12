@@ -1,0 +1,21 @@
+services:
+  staging:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: apiary-foundry-site:staging
+    container_name: apiary-foundry-site-staging
+    restart: unless-stopped
+    networks:
+      - edge
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/ >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  edge:
+    external: true
+    name: lexysign_lexysign
