@@ -54,7 +54,12 @@ for rel_path, required_text in required_pages.items():
         if not (root / asset.lstrip('/')).exists(): errors.append(f"missing asset: {asset}")
 
 public_html = "\n".join(h for _, h in all_html)
-for stale in ["5-Hive", "Hive5", "Hive Five", "INTERNAL MOCKUP", "PUBLIC CLAIMS NEED APPROVAL", "Suggested visual", "Design note", "Proof themes to use on this page", "Placeholder for future"]:
+for stale in [
+    "5-Hive", "Hive5", "Hive Five", "INTERNAL MOCKUP", "PUBLIC CLAIMS NEED APPROVAL",
+    "Suggested visual", "Design note", "Proof themes to use on this page", "Placeholder for future",
+    "Working title", "Recommended case study categories", "Each AF case study should follow",
+    "made Google reps speechless", "### Story", ">Story<", "System elements to highlight",
+]:
     if stale in public_html:
         errors.append(f"stale/internal language leaked: {stale}")
 if re.search(r"Five Hive(?!s)", public_html):

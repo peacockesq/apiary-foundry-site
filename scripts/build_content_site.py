@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import html
+import os
 import re
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-CONTENT_DIR = Path('/Users/bot/.openclaw/workspace/projects/apiary-foundry/content')
+DEFAULT_CONTENT_DIR = Path('/Users/bot/.openclaw/workspace/projects/apiary-foundry/content')
+CONTENT_DIR = Path(os.environ.get('APIARY_CONTENT_DIR', DEFAULT_CONTENT_DIR))
 ROOT = Path(__file__).resolve().parents[1]
 
 PAGE_FILES = [
@@ -99,6 +101,12 @@ def parse_page(path: Path) -> Page:
 
 
 def inline_md(text: str) -> str:
+    replacements = {
+        'The tracking discipline that made Google reps speechless.': 'The tracking discipline that made platform accountability measurable.',
+        'The AF lesson:': 'The Apiary Foundry lesson:',
+        'Start with a Growth System Audit': 'Start with a growth system audit',
+    }
+    text = replacements.get(text, text)
     text = html.escape(text)
     text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
     text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
@@ -127,15 +135,28 @@ def split_sections(lines: list[str]):
 def paragraphize(lines: list[str]) -> str:
     out = []
     in_ul = False
+    promote_next_to_h3 = False
     for raw in lines:
         line = raw.strip()
         if not line:
             if in_ul:
                 out.append('</ul>'); in_ul = False
             continue
-        if line.lower().startswith('suggested visual') or line.lower().startswith('**suggested visual:**') or line.lower() == '### design note':
+        lower = line.lower()
+        if lower.startswith('suggested visual') or lower.startswith('**suggested visual:**') or lower in {'### design note', '### story', '### system elements to highlight'}:
+            continue
+        if lower == '### working title':
+            promote_next_to_h3 = True
+            continue
+        if line in {'Each AF case study should follow the same structure:', 'Recommended case study categories:'}:
             continue
         if 'This should be one of the strongest proof modules' in line or 'Treat this as founder-led credibility' in line:
+            continue
+        if promote_next_to_h3:
+            if in_ul:
+                out.append('</ul>'); in_ul = False
+            out.append(f'<h3>{inline_md(line)}</h3>')
+            promote_next_to_h3 = False
             continue
         if line.startswith('# '):
             if in_ul:
@@ -198,7 +219,7 @@ def hero_diagram(kind: str) -> str:
     if 'five-hives' in kind:
         return system_orb('Five hives', 'one system', [('Acquisition','fund demand'),('Content','earn intent'),('Conversion','prove offer'),('Lifecycle','protect leads'),('Measurement','fund winners')])
     return '''<div class="workbench-card" aria-label="Apiary workbench">
-      <div class="workbench-top"><span>operator review</span><span>robot QA</span></div>
+      <div class="workbench-top"><span>operator review</span><span>workflow QA</span></div>
       <div class="signal-bars"><i style="height:42%"></i><i style="height:66%"></i><i style="height:82%"></i><i style="height:54%"></i><i style="height:76%"></i></div>
       <p>Every page, workflow, and campaign has to produce a decision-ready signal.</p>
     </div>'''
@@ -276,6 +297,8 @@ def render_page(page: Page) -> str:
         if page.slug == '/' and section['heading'] in structural_home_sections:
             continue
         if section['heading'] == 'Design note':
+            continue
+        if page.slug == '/proof' and section['heading'] in {'Case study format', 'Placeholder for future client case studies'}:
             continue
         if not ''.join(section['lines']).strip() and section['heading'] in {'Doctrine section', 'Founder section', 'Closing CTA'}:
             continue
