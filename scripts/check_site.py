@@ -72,6 +72,15 @@ for required in ["operator-led growth system", "floods of busy work", "what gets
         errors.append(f"missing global phrase: {required}")
 if len(css) < 10000:
     errors.append("css unexpectedly small")
+if "@media(max-width:1080px){.nav-links{display:none}" in css:
+    errors.append("mobile navigation is hidden without a replacement menu")
+for mobile_nav_required in [
+    "nav{flex-wrap:wrap",
+    ".nav-links{order:3;display:flex;width:100%;gap:10px;overflow-x:auto",
+    ".nav-links a{flex:0 0 auto",
+]:
+    if mobile_nav_required not in css:
+        errors.append(f"missing responsive mobile nav rule: {mobile_nav_required}")
 if "127.0.0.1:8080" not in (root / "Dockerfile").read_text():
     errors.append("Docker healthcheck must use 127.0.0.1:8080")
 
