@@ -61,6 +61,7 @@ for stale in [
     "Suggested visual", "Design note", "Proof themes to use on this page", "Placeholder for future",
     "Working title", "Recommended case study categories", "Each AF case study should follow",
     "made Google reps speechless", "### Story", ">Story<", "System elements to highlight",
+    "Upgraded Points",
 ]:
     if stale in public_html:
         errors.append(f"stale/internal language leaked: {stale}")
@@ -68,7 +69,7 @@ if re.search(r"Five Hive(?!s)", public_html):
     errors.append("stale/internal language leaked: Five Hive")
 if re.search(r"\b[Nn]ot [^.!?]{1,100}\bbut\b", public_html):
     errors.append("overused not-X-but-Y construction in public pages")
-for required in ["operator-led growth system", "floods of busy work", "what gets measured gets funded", "Willie Peacock", "Upgraded Points"]:
+for required in ["operator-led growth system", "floods of busy work", "what gets measured gets funded", "Willie Peacock", "massive travel credit card affiliate"]:
     if required.lower() not in public_html.lower():
         errors.append(f"missing global phrase: {required}")
 if len(css) < 10000:
