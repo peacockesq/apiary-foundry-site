@@ -52,7 +52,8 @@ for rel_path, required_text in required_pages.items():
             if target and not (root / target / "index.html").exists():
                 errors.append(f"broken internal link on /{rel_path}: {href}")
     for asset in re.findall(r'href="(/assets/[^"]+)"', html):
-        if not (root / asset.lstrip('/')).exists(): errors.append(f"missing asset: {asset}")
+        asset_path = asset.split("?", 1)[0]
+        if not (root / asset_path.lstrip('/')).exists(): errors.append(f"missing asset: {asset}")
 
 public_html = "\n".join(h for _, h in all_html)
 for stale in [
