@@ -20,6 +20,7 @@ required_pages = {
     "marketing-measurement-attribution/": "The hive that decides what gets funded.",
     "proof/": "Proof beats theater.",
     "work-with-us/": "Bring order to the marketing system.",
+    "blog/": "Operator notes on measurable growth.",
 }
 
 class LinkParser(HTMLParser):
