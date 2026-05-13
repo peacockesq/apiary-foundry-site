@@ -284,7 +284,7 @@ def render_page(page: Page) -> str:
     page_class = 'home' if page.slug == '/' else 'subpage'
     proof_band = ''
     if page.slug == '/':
-        proof_band = '''<div class="founder-band"><div class="portrait-token">WP</div><div><p class="eyebrow">Operator credibility</p><h2>Led by Willie Peacock.</h2><p>Attorney, Chicago Booth MBA candidate, paid media and growth operator, and builder of measurement systems that preserve the data most teams lose.</p></div><div class="proof-chip"><b>98%</b><span>click ID / conversion value retention discipline at Upgraded Points</span></div></div>'''
+        proof_band = '''<div class="founder-band"><div class="portrait-token">WP</div><div><p class="eyebrow">Operator credibility</p><h2>Led by Willie Peacock.</h2><p>Attorney, Chicago Booth MBA candidate, paid media and growth operator, and builder of measurement systems that preserve the data most teams lose.</p></div><div class="proof-chip"><b>Publisher</b><span>massive travel credit card affiliate growth and measurement buildout</span></div></div>'''
 
     body = []
     # Special doctrine band if content includes it.
