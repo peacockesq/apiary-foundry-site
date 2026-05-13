@@ -81,6 +81,22 @@ for mobile_nav_required in [
 ]:
     if mobile_nav_required not in css:
         errors.append(f"missing responsive mobile nav rule: {mobile_nav_required}")
+for mobile_layout_required in [
+    "Mobile density and readability pass",
+    ".split-section .rich-copy",
+    ".visual-break",
+    "body{padding-bottom:104px}",
+    ".subpage:has(#diagnostic) .mobile-cta{display:none}",
+    ".lead-form input,.lead-form textarea{width:100%;min-width:0",
+    ".newsletter-strip{grid-template-columns:1fr;padding:24px",
+]:
+    if mobile_layout_required not in css:
+        errors.append(f"missing mobile readability/form rule: {mobile_layout_required}")
+work_html = (root / "work-with-us" / "index.html").read_text()
+if 'name="phone"' in work_html or 'name="company"' in work_html:
+    errors.append("diagnostic form still asks for phone/company on the mobile-critical page")
+if 'aria-label="Apiary engagement flow"' not in work_html:
+    errors.append("work-with-us missing visual engagement flow break")
 if "127.0.0.1:8080" not in (root / "Dockerfile").read_text():
     errors.append("Docker healthcheck must use 127.0.0.1:8080")
 
