@@ -40,8 +40,19 @@ NAV = [
     ('/five-hives/', 'Five Hives'),
     ('/about-willie-peacock/', 'Willie'),
     ('/proof/', 'Proof'),
+    ('/blog/', 'Blog'),
     ('/work-with-us/', 'Work With Us'),
 ]
+
+ASSET_VERSION = '20260513-mobile'
+MAUTIC_HEAD = '''  <script>
+    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)})(window,document,'script','https://mautic.apiaryfoundry.com/mtc.js','mt');
+    mt('send', 'pageview');
+  </script>'''
+
+NEWSLETTER_STRIP = '''<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" checked /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later.</span></label><button class="button amber" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>'''
+
+DIAGNOSTIC_FORM = '''<section class="container final-section" id="diagnostic"><div class="final-card lead-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Start with the system, not the pitch.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p><p class="form-note">Submissions route through the Apiary automation layer into Mautic. No browser-side CRM secrets. No nonsense.</p></div><form class="lead-form" id="apiary-growth-diagnostic" data-apiary-lead-form data-source-form="growth_diagnostic" data-event-name="growth_diagnostic_requested" data-form-location="work-with-us-final"><label>Name<input name="name" autocomplete="name" placeholder="Your name" /></label><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="full">Where is the system leaking?<textarea name="message" rows="4" placeholder="Tracking, paid media, landing pages, lifecycle, reporting, speed-to-lead..."></textarea></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" /><span data-consent-text>I agree to receive follow-up and marketing communications from Apiary Foundry. I can opt out later.</span></label><button class="button amber" type="submit">Send diagnostic request</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></div></section>'''
 
 CTA_MAP = {
     'Build the measurement engine': '/measurement-engine/',
@@ -58,6 +69,20 @@ CTA_MAP = {
     'Build measurement the business can trust': '/marketing-measurement-attribution/',
     'Bring proof into the system': '/proof/',
     'Stop guessing which work deserves money': '/work-with-us/',
+    'Build the Measurement Engine': '/work-with-us/',
+    'Design the Growth OS': '/work-with-us/',
+    'Explore Acquisition Hive': '/paid-media-acquisition/',
+    'Explore Content & Search Hive': '/seo-content-marketing/',
+    'Explore Conversion Hive': '/conversion-rate-optimization/',
+    'Explore Lifecycle Hive': '/lifecycle-crm/',
+    'Explore Measurement Hive': '/marketing-measurement-attribution/',
+    'Build the Content & Search Hive': '/work-with-us/',
+    'Build the Lifecycle Hive': '/work-with-us/',
+    'Audit acquisition': '/work-with-us/',
+    'Audit conversion': '/work-with-us/',
+    'Audit measurement': '/work-with-us/',
+    'Work with Willie': '/work-with-us/',
+    'Start the conversation': '#diagnostic',
 }
 
 @dataclass
@@ -314,12 +339,20 @@ def render_page(page: Page) -> str:
     for idx, section in enumerate(rendered_sections):
         heading_html = inline_md(heading_map.get(section['heading'], section['heading']))
         content = paragraphize(section['lines'])
+        if page.slug == '/work-with-us' and section['heading'] == 'Engagement models':
+            content = '<div class="visual-break" aria-label="Apiary engagement flow"><span>Diagnose</span><span>Prioritize</span><span>Build</span></div>'
+        if page.slug == '/five-hives' and section['heading'] == 'Hive 1: Acquisition':
+            content = '<div class="visual-break" aria-label="Five hive operating flow"><span>Traffic</span><span>Conversion</span><span>Measurement</span></div>'
         mod = idx % 4
         if page.slug.startswith('/paid-media') or page.slug.startswith('/seo-content') or page.slug.startswith('/conversion') or page.slug.startswith('/lifecycle') or page.slug.startswith('/marketing-measurement'):
             cls = 'section-method' if section['heading'] in {'AF acquisition method','AF content method','AF conversion method','AF lifecycle method','AF measurement method'} else 'content-section'
         else:
             cls = ['content-section','split-section','panel-grid-section','dark-section'][mod]
         body.append(f'<section class="{cls}"><div class="container"><div class="section-kicker">{idx+1:02d}</div><h2>{heading_html}</h2><div class="rich-copy">{content}</div></div></section>')
+
+    final_section = '<section class="container final-section"><div class="final-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Stop funding motion. Fund what works.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p></div><div class="cta-stack"><a class="button amber" href="/work-with-us/">Start with a growth system audit</a><a class="ghost" href="/measurement-engine/">Build the measurement engine</a></div></div></section>'
+    if page.slug == '/work-with-us':
+        final_section = DIAGNOSTIC_FORM
 
     html_body = '\n'.join(body)
     lede = ''.join(f'<p class="lede">{inline_md(p)}</p>' for p in paras)
@@ -340,15 +373,18 @@ def render_page(page: Page) -> str:
   <meta property="og:url" content="https://apiaryfoundry.com{page.slug if page.slug != '/' else '/'}" />
   <meta name="theme-color" content="#171512" />
   <link rel="canonical" href="https://apiaryfoundry.com{page.slug if page.slug != '/' else '/'}" />
-  <link rel="preload" href="/assets/site.css" as="style" />
-  <link rel="stylesheet" href="/assets/site.css" />
+  <link rel="preload" href="/assets/site.css?v={ASSET_VERSION}" as="style" />
+  <link rel="stylesheet" href="/assets/site.css?v={ASSET_VERSION}" />
+{MAUTIC_HEAD}
 </head>
 <body class="{page_class}">
   <a class="skip" href="#main">Skip to content</a>
   <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><div class="nav-links">{nav_html(slug)}</div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
-  <main id="main">{hero}{html_body}<section class="container final-section"><div class="final-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Stop funding motion. Fund what works.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p></div><div class="cta-stack"><a class="button amber" href="/work-with-us/">Start with a growth system audit</a><a class="ghost" href="/measurement-engine/">Build the measurement engine</a></div></div></section></main>
+  <main id="main">{hero}{html_body}{final_section}</main>
+{NEWSLETTER_STRIP}
   <footer class="container"><span>© 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
   <a class="button amber mobile-cta" href="/work-with-us/">Start diagnostic</a>
+  <script src="/assets/apiary-lead-capture.js" defer></script>
 </body>
 </html>'''
 
