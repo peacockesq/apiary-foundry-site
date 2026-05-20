@@ -21,6 +21,8 @@ required_pages = {
     "proof/": "Proof beats theater.",
     "work-with-us/": "Bring order to the marketing system.",
     "blog/": "Operator notes on measurable growth.",
+    "privacy-policy/": "Privacy Policy",
+    "terms-of-service/": "Terms of Service",
 }
 
 class LinkParser(HTMLParser):
@@ -69,7 +71,7 @@ if re.search(r"Five Hive(?!s)", public_html):
     errors.append("stale/internal language leaked: Five Hive")
 if re.search(r"\b[Nn]ot [^.!?]{1,100}\bbut\b", public_html):
     errors.append("overused not-X-but-Y construction in public pages")
-for required in ["operator-led growth system", "floods of busy work", "what gets measured gets funded", "Willie Peacock", "massive travel credit card affiliate"]:
+for required in ["operator-led growth system", "floods of busy work", "what gets measured gets funded", "Willie Peacock", "major financial publisher"]:
     if required.lower() not in public_html.lower():
         errors.append(f"missing global phrase: {required}")
 if len(css) < 10000:

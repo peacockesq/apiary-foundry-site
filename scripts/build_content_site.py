@@ -50,7 +50,7 @@ MAUTIC_HEAD = '''  <script>
     mt('send', 'pageview');
   </script>'''
 
-NEWSLETTER_STRIP = '''<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" checked /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later.</span></label><button class="button amber" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>'''
+NEWSLETTER_STRIP = '''<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" required /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later. I agree to the <a href="/privacy-policy/">Privacy Policy</a> and <a href="/terms-of-service/">Terms of Service</a>.</span></label><button class="button amber" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>'''
 
 DIAGNOSTIC_FORM = '''<section class="container final-section" id="diagnostic"><div class="final-card lead-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Start with the system, not the pitch.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p><p class="form-note">Submissions route through the Apiary automation layer into Mautic. No browser-side CRM secrets. No nonsense.</p></div><form class="lead-form" id="apiary-growth-diagnostic" data-apiary-lead-form data-source-form="growth_diagnostic" data-event-name="growth_diagnostic_requested" data-form-location="work-with-us-final"><label>Name<input name="name" autocomplete="name" placeholder="Your name" /></label><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="full">Where is the system leaking?<textarea name="message" rows="4" placeholder="Tracking, paid media, landing pages, lifecycle, reporting, speed-to-lead..."></textarea></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" /><span data-consent-text>I agree to receive follow-up and marketing communications from Apiary Foundry. I can opt out later.</span></label><button class="button amber" type="submit">Send diagnostic request</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></div></section>'''
 
@@ -59,7 +59,7 @@ CTA_MAP = {
     'See the five hives': '/five-hives/',
     'Explore the Five Hives': '/five-hives/',
     'Meet Willie': '/about-willie-peacock/',
-    'Start with a growth system audit': '/work-with-us/',
+    'Book a Free Growth Audit': '/work-with-us/',
     'Build the operating layer': '/growth-os/',
     'Make the scoreboard trustworthy': '/measurement-engine/',
     'Make spend answerable': '/paid-media-acquisition/',
@@ -129,7 +129,7 @@ def inline_md(text: str) -> str:
     replacements = {
         'The tracking discipline that made Google reps speechless.': 'The tracking discipline that made platform accountability measurable.',
         'The AF lesson:': 'The Apiary Foundry lesson:',
-        'Start with a Growth System Audit': 'Start with a growth system audit',
+        'Book a Free Growth Audit': 'Book a Free Growth Audit',
     }
     text = replacements.get(text, text)
     text = html.escape(text)
@@ -350,7 +350,7 @@ def render_page(page: Page) -> str:
             cls = ['content-section','split-section','panel-grid-section','dark-section'][mod]
         body.append(f'<section class="{cls}"><div class="container"><div class="section-kicker">{idx+1:02d}</div><h2>{heading_html}</h2><div class="rich-copy">{content}</div></div></section>')
 
-    final_section = '<section class="container final-section"><div class="final-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Stop funding motion. Fund what works.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p></div><div class="cta-stack"><a class="button amber" href="/work-with-us/">Start with a growth system audit</a><a class="ghost" href="/measurement-engine/">Build the measurement engine</a></div></div></section>'
+    final_section = '<section class="container final-section"><div class="final-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Stop funding motion. Fund what works.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p></div><div class="cta-stack"><a class="button amber" href="/work-with-us/">Book a Free Growth Audit</a><a class="ghost" href="/measurement-engine/">Build the measurement engine</a></div></div></section>'
     if page.slug == '/work-with-us':
         final_section = DIAGNOSTIC_FORM
 
@@ -379,12 +379,12 @@ def render_page(page: Page) -> str:
 </head>
 <body class="{page_class}">
   <a class="skip" href="#main">Skip to content</a>
-  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><div class="nav-links">{nav_html(slug)}</div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
+  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><div class="nav-links">{nav_html(slug)}</div><a class="button amber nav-cta" data-booking-link href="https://tidycal.com/peacockesq/apiary-foundry-1-1-chats">Book Free Audit</a></nav></div>
   <main id="main">{hero}{html_body}{final_section}</main>
 {NEWSLETTER_STRIP}
-  <footer class="container"><span>© 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
-  <a class="button amber mobile-cta" href="/work-with-us/">Start diagnostic</a>
-  <script src="/assets/apiary-lead-capture.js?v=20260520-crm" defer></script>
+  <footer class="container"><span>© 2026 Apiary Foundry. 1174 Whitney Ave, Hamden, CT 06517.</span><span><a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-of-service/">Terms of Service</a></span></footer>
+  <a class="button amber mobile-cta" data-booking-link href="https://tidycal.com/peacockesq/apiary-foundry-1-1-chats">Book Free Audit</a>
+  <script src="/assets/apiary-lead-capture.js?v=20260520-human" defer></script>
 </body>
 </html>'''
 
