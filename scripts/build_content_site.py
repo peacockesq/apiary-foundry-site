@@ -384,7 +384,7 @@ def render_page(page: Page) -> str:
 {NEWSLETTER_STRIP}
   <footer class="container"><span>© 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
   <a class="button amber mobile-cta" href="/work-with-us/">Start diagnostic</a>
-  <script src="/assets/apiary-lead-capture.js" defer></script>
+  <script src="/assets/apiary-lead-capture.js?v=20260520-crm" defer></script>
 </body>
 </html>'''
 

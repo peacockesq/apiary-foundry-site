@@ -1,5 +1,6 @@
 (() => {
   const WEBHOOK_URL = 'https://n8n.esq2u.com/webhook/apiary-foundry/lead';
+  const BOOKING_URL = 'https://tidycal.com/peacockesq/apiary-foundry-1-1-chats';
   const ATTR_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid', 'msclkid'];
   const STORAGE_KEY = 'apiary_attribution_v1';
 
@@ -121,8 +122,9 @@
         body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setStatus(form, 'Received. We will review the system and follow up.', 'success');
+      setStatus(form, 'Received. Redirecting you to book the 30-minute Apiary Foundry chat...', 'success');
       form.reset();
+      window.location.assign(BOOKING_URL);
     } catch (error) {
       setStatus(form, 'Submission failed. Email team@williepeacock.com and mention Apiary Foundry.', 'error');
       console.error('Apiary lead capture failed', error);
