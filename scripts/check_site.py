@@ -9,7 +9,7 @@ css = (root / "assets" / "site.css").read_text()
 
 required_pages = {
     "": "The cure for random acts of marketing.",
-    "about-willie-peacock/": "Human strategy. Machine-assisted execution. Operator accountability.",
+    "about-willie-peacock/": "The operator who turned off the ads and nobody noticed.",
     "measurement-engine/": "The infrastructure behind fundable marketing.",
     "growth-os/": "The operating system for measurable growth work.",
     "five-hives/": "Five hives. One accountable growth system.",
@@ -21,6 +21,10 @@ required_pages = {
     "proof/": "Proof beats theater.",
     "work-with-us/": "Bring order to the marketing system.",
     "blog/": "Operator notes on measurable growth.",
+    "trust/": "An attorney runs the system.",
+    "proof/military-com/": "The ads were so bad that nobody noticed when they stopped.",
+    "proof/upgradedpoints/": "43 consecutive profitable months.",
+    "proof/spectraforce/": "Two weeks versus six months.",
 }
 
 class LinkParser(HTMLParser):
@@ -61,7 +65,6 @@ for stale in [
     "Suggested visual", "Design note", "Proof themes to use on this page", "Placeholder for future",
     "Working title", "Recommended case study categories", "Each AF case study should follow",
     "made Google reps speechless", "### Story", ">Story<", "System elements to highlight",
-    "Upgraded Points",
 ]:
     if stale in public_html:
         errors.append(f"stale/internal language leaked: {stale}")
@@ -69,7 +72,7 @@ if re.search(r"Five Hive(?!s)", public_html):
     errors.append("stale/internal language leaked: Five Hive")
 if re.search(r"\b[Nn]ot [^.!?]{1,100}\bbut\b", public_html):
     errors.append("overused not-X-but-Y construction in public pages")
-for required in ["operator-led growth system", "floods of busy work", "what gets measured gets funded", "Willie Peacock", "massive travel credit card affiliate"]:
+for required in ["operator-led growth system", "marketing and business process systems", "what gets measured gets funded", "Willie Peacock", "massive travel credit card affiliate"]:
     if required.lower() not in public_html.lower():
         errors.append(f"missing global phrase: {required}")
 if len(css) < 10000:
