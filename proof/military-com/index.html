@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Case Study: Military.com | Apiary Foundry</title>
+  <meta name="description" content="How a $50 tracking middleware turned a bleeding paid media account into a primary revenue driver for a military publisher." />
+  <meta property="og:title" content="Case Study: Military.com | Apiary Foundry" />
+  <meta property="og:description" content="How a $50 tracking middleware turned a bleeding paid media account into a primary revenue driver for a military publisher." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://apiaryfoundry.com/proof/military-com" />
+  <meta name="theme-color" content="#171512" />
+  <link rel="canonical" href="https://apiaryfoundry.com/proof/military-com" />
+  <link rel="preload" href="/assets/site.css?v=20260513-mobile" as="style" />
+  <link rel="stylesheet" href="/assets/site.css?v=20260513-mobile" />
+  <script>
+    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)})(window,document,'script','https://mautic.apiaryfoundry.com/mtc.js','mt');
+    mt('send', 'pageview');
+  </script>
+</head>
+<body class="subpage">
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><div class="nav-links"><a href="/">Home</a><a href="/measurement-engine/">Measurement Engine</a><a href="/growth-os/">Growth OS</a><a href="/five-hives/">Five Hives</a><a href="/about-willie-peacock/">Willie</a><a href="/proof/">Proof</a><a href="/blog/">Blog</a><a href="/work-with-us/">Work With Us</a></div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
+  <main id="main"><header class="hero container">
+      <div class="hero-grid"><div><p class="eyebrow">Apiary Foundry / case study</p><h1>The ads were so bad that nobody noticed when they stopped.</h1><p class="lede">A military publisher's paid media account was bleeding tens of thousands of dollars for a handful of sales. The fix was not more creative or a bigger budget. It was a $50 tracking layer that told the algorithm what a conversion was actually worth.</p>
+      <div class="hero-actions"><a class="button amber" href="/work-with-us/">Work with Apiary Foundry</a><a class="ghost" href="/proof/">All case studies</a></div></div><div class="workbench-card" aria-label="Apiary workbench">
+      <div class="workbench-top"><span>operator review</span><span>workflow QA</span></div>
+      <div class="signal-bars"><i style="height:42%"></i><i style="height:66%"></i><i style="height:82%"></i><i style="height:54%"></i><i style="height:76%"></i></div>
+      <p>Every page, workflow, and campaign has to produce a decision-ready signal.</p>
+    </div></div></header><section class="content-section"><div class="container"><div class="section-kicker">01</div><h2>The company</h2><div class="rich-copy"><p>Military.com (part of Monster Worldwide) was a leading military and veteran-focused publisher. The business model included military recruitment lead generation — connecting prospective service members with Army, Navy, Marine Corps, and Reserve recruiters.</p>
+<p>The paid media team had been running search and display campaigns for years. But the leadership could not reliably answer which campaigns produced qualified leads, which keywords created low-quality volume, and which budget lines deserved more money.</p></div></div></section>
+<section class="split-section"><div class="container"><div class="section-kicker">02</div><h2>The diagnosis</h2><div class="rich-copy"><p>When Willie arrived, the paid media account was producing losses on a scale that should have triggered an emergency review. It had not. The system was so broken that turning the ads off caused no detectable change in business volume for four months.</p>
+<p>The root cause was the conversion value problem:</p>
+<ul>
+<li>Ad networks treated every conversion as equal — a $1 registration looked identical to a $200 recruitment lead</li>
+<li>Machine learning algorithms optimized for volume, not revenue</li>
+<li>High-value leads and low-value registrations were indistinguishable in the reporting</li>
+<li>Budget decisions were made by instinct because the data could not carry the argument</li>
+</ul>
+<p>The team had been spending tens of thousands of dollars. The return was a handful of actual sales. The business did not know which half of the spend was waste because the system could not distinguish the halves.</p></div></div></section>
+<section class="panel-grid-section"><div class="container"><div class="section-kicker">03</div><h2>The fix: a $50 middleware layer</h2><div class="rich-copy"><p>Willie researched how to send actual conversion values back to the ad platforms. He found a Ukrainian startup called RedTrack offering exactly that capability for $50 per month.</p>
+<p>The architecture was elegant in its simplicity:</p>
+<ol>
+<li>Capture the click ID from the ad network when a user arrives</li>
+<li>Store the click ID in a database alongside session data</li>
+<li>When a conversion happens, look up the original click ID and attach the actual transaction value</li>
+<li>Send the conversion value back to Google Ads (and later Meta) through the platform's API</li>
+</ol>
+<p>That is it. No enterprise software. No six-figure implementation. No consultant army. A $50 middleware layer that sat between the publisher's conversion events and the ad platforms' reporting systems, giving the machine learning algorithms the one signal they needed: <strong>this lead is worth $X, that registration is worth $Y</strong>.</p>
+<p>Within three to four weeks of implementation, the economics changed. The account moved from losses to roughly <strong>$1.40 back for every $1.00 spent</strong>.</p></div></div></section>
+<section class="dark-section"><div class="container"><div class="section-kicker">04</div><h2>Scaling the system</h2><div class="rich-copy"><p>Once the tracking was trustworthy, the budget strategy became obvious:</p>
+<ul>
+<li><strong>Maxed out search impression share</strong> — every dollar that could profitably buy military recruitment search traffic was deployed</li>
+<li><strong>Cross-sold leads across branches</strong> — Army, Navy, Reserves, Marine Corps — because the system could now tell which traffic sources produced qualified demand for each branch</li>
+<li><strong>Made recruitment ads profitable</strong> — campaigns that had previously been treated as brand awareness became direct-response revenue drivers</li>
+<li><strong>FastWeb member acquisition</strong> — ran paid campaigns targeting new member signups at under $2 CPA, because the lifetime value math showed $2.10 per member</li>
+</ul>
+<p>The key shift was not creative genius or bid-strategy wizardry. It was giving the system the data it needed to make correct decisions automatically.</p></div></div></section>
+<section class="content-section"><div class="container"><div class="section-kicker">05</div><h2>What happened next</h2><div class="rich-copy"><p>When Willie was laid off during COVID cutbacks, the company lost money for the next three to four months. He still had access to the reporting systems he had built, and watched the decline from the outside.</p>
+<p>The short-sightedness of the layoff was obvious: the company had eliminated the person who understood the measurement infrastructure, not realizing that the infrastructure only worked when someone maintained it, questioned it, and adjusted it.</p>
+<p>The military.com story is the foundational case study for Apiary Foundry because it contains the entire operating philosophy in one narrative:</p>
+<ul>
+<li>Bad tracking makes good campaigns look bad</li>
+<li>Cheap, focused tools can outperform expensive, bloated stacks</li>
+<li>The algorithm needs truth, not volume</li>
+<li>Budget decisions improve when data improves</li>
+<li>A system without an operator eventually breaks</li>
+</ul></div></div></section><section class="container final-section"><div class="final-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Stop funding motion. Fund what works.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p></div><div class="cta-stack"><a class="button amber" href="/work-with-us/">Start with a growth system audit</a><a class="ghost" href="/measurement-engine/">Build the measurement engine</a></div></div></section></main>
+<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" checked /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later.</span></label><button class="button amber" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>
+  <footer class="container"><span>© 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
+  <a class="button amber mobile-cta" href="/work-with-us/">Start diagnostic</a>
+  <script src="/assets/apiary-lead-capture.js?v=20260520-crm" defer></script>
+</body>
+</html>
