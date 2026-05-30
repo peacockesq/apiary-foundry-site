@@ -11,20 +11,21 @@
  <meta property="og:url" content="https://apiaryfoundry.com/" />
  <meta name="theme-color" content="#171512" />
  <link rel="canonical" href="https://apiaryfoundry.com/" />
- <link rel="preload" href="/assets/site.css?v=20260531" as="style" />
- <link rel="stylesheet" href="/assets/site.css?v=20260531" />
+ <link rel="preload" href="/assets/site.css?v=20260531c" as="style" />
+ <link rel="stylesheet" href="/assets/site.css?v=20260531c" />
  <script>
- (function(w,d,t,u,n,a,m){w['"'"'MauticTrackingObject'"'"']=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)})(window,document,'"'"'script'"'"','"'"'https://mautic.apiaryfoundry.com/mtc.js'"'"','"'"'mt'"'"');
- mt('"'"'send'"'"', '"'"'pageview'"'"');
+ (function(w,d,t,u,n,a,m){w["MauticTrackingObject"]=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)})(window,document,"script","https://mautic.apiaryfoundry.com/mtc.js","mt");
+ mt("send", "pageview");
  </script>
 </head>
 <body class="home">
  <a class="skip" href="#main">Skip to content</a>
  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><button class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
 <svg class="hamburger-svg" viewBox="0 0 40 32" width="40" height="32" aria-hidden="true">
-<path class="h-line top" d="M4 6h32" stroke-linecap="round" stroke-width="2.8"/>
-<path class="h-line mid" d="M4 16h32" stroke-linecap="round" stroke-width="2.8"/>
-<path class="h-line bot" d="M4 26h32" stroke-linecap="round" stroke-width="2.8"/>
+  <path class="h-line top" d="M4 7h32" fill="none" stroke="var(--amber)" stroke-width="2.6" stroke-linecap="round"/>
+  <path class="h-line mid" d="M4 16h32" fill="none" stroke="var(--amber)" stroke-width="2.6" stroke-linecap="round"/>
+  <path class="h-line bot" d="M4 25h32" fill="none" stroke="var(--amber)" stroke-width="2.6" stroke-linecap="round"/>
+  <path class="hex-frame" d="M20 5L34 13v6L20 27 6 19v-6z" fill="none" stroke="var(--amber)" stroke-width="2.4" stroke-linejoin="round" opacity="0"/>
 </svg>
 </button><div class="nav-links" id="nav-menu" aria-expanded="false"><a href="/" aria-current="page">Home</a><a href="/measurement-engine/">Measurement Engine</a><a href="/growth-os/">Growth OS</a><a href="/five-hives/">Five Hives</a><a href="/about-willie-peacock/">Willie</a><a href="/proof/">Proof</a><a href="/blog/">Blog</a><a href="/work-with-us/">Work With Us</a></div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
  <main id="main"><header class="hero container">
@@ -82,32 +83,32 @@
  <footer class="container"><span>© 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
  <a class="button amber mobile-cta" href="/work-with-us/">Start diagnostic</a>
  <script>
- (function(){
- var h=document.querySelector('"'"'.hamburger'"'"');
- var n=document.getElementById('"'"'nav-menu'"'"');
- if(!h||!n)return;
- h.addEventListener('"'"'click'"'"',function(){
- var e=h.getAttribute('"'"'aria-expanded'"'"')==='"'"'true'"'"';
- h.setAttribute('"'"'aria-expanded'"'"',!e);
- n.setAttribute('"'"'aria-expanded'"'"',!e);
- document.body.style.overflow=e?'"'"''"'"':'"'"'hidden'"'"';
- });
- n.querySelectorAll('"'"'a'"'"').forEach(function(a){
- a.addEventListener('"'"'click'"'"',function(){
- h.setAttribute('"'"'aria-expanded'"'"','"'"'false'"'"');
- n.setAttribute('"'"'aria-expanded'"'"','"'"'false'"'"');
- document.body.style.overflow='"'"''"'"';
- });
- });
- document.addEventListener('"'"'keydown'"'"',function(e){
- if(e.key==='"'"'Escape'"'"'&& h.getAttribute('"'"'aria-expanded'"'"')==='"'"'true'"'"'){
- h.setAttribute('"'"'aria-expanded'"'"','"'"'false'"'"');
- n.setAttribute('"'"'aria-expanded'"'"','"'"'false'"'"');
- document.body.style.overflow='"'"''"'"';
- }
- });
- })();
- </script>
- <script src="/assets/apiary-lead-capture.js?v=20260520-crm" defer></script>
+(function(){
+  var h=document.querySelector(".hamburger");
+  var n=document.getElementById("nav-menu");
+  if(!h||!n)return;
+  h.addEventListener("click",function(){
+    var e=h.getAttribute("aria-expanded")==="true";
+    h.setAttribute("aria-expanded",!e);
+    n.setAttribute("aria-expanded",!e);
+    document.body.style.overflow=e?"":"hidden";
+  });
+  n.querySelectorAll("a").forEach(function(a){
+    a.addEventListener("click",function(){
+      h.setAttribute("aria-expanded","false");
+      n.setAttribute("aria-expanded","false");
+      document.body.style.overflow="";
+    });
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"&&h.getAttribute("aria-expanded")==="true"){
+      h.setAttribute("aria-expanded","false");
+      n.setAttribute("aria-expanded","false");
+      document.body.style.overflow="";
+    }
+  });
+})();
+</script>
+ <script src="/assets/apiary-lead-capture.js?v=20260531c-crm" defer></script>
 </body>
 </html>
