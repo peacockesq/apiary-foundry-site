@@ -50,7 +50,35 @@ MAUTIC_HEAD = '''  <script>
     mt('send', 'pageview');
   </script>'''
 
-NEWSLETTER_STRIP = '''<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" checked /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later.</span></label><button class="button amber" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>'''
+NEWSLETTER_STRIP = '''<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" checked /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later.</span></label><button class="button" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>'''
+
+HAMBURGER_JS = """<script>
+(function(){
+  var h=document.querySelector('.hamburger');
+  var n=document.getElementById('nav-menu');
+  if(!h||!n)return;
+  h.addEventListener('click',function(){
+    var e=h.getAttribute('aria-expanded')==='true';
+    h.setAttribute('aria-expanded',!e);
+    n.setAttribute('aria-expanded',!e);
+    document.body.style.overflow=e?'':'hidden';
+  });
+  n.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      h.setAttribute('aria-expanded','false');
+      n.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    });
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&h.getAttribute('aria-expanded')==='true'){
+      h.setAttribute('aria-expanded','false');
+      n.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>"""
 
 DIAGNOSTIC_FORM = '''<section class="container final-section" id="diagnostic"><div class="final-card lead-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Start with the system, not the pitch.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p><p class="form-note">Submissions route through the Apiary automation layer into Mautic. No browser-side CRM secrets. No nonsense.</p></div><form class="lead-form" id="apiary-growth-diagnostic" data-apiary-lead-form data-source-form="growth_diagnostic" data-event-name="growth_diagnostic_requested" data-form-location="work-with-us-final"><label>Name<input name="name" autocomplete="name" placeholder="Your name" /></label><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="full">Where is the system leaking?<textarea name="message" rows="4" placeholder="Tracking, paid media, landing pages, lifecycle, reporting, speed-to-lead..."></textarea></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" /><span data-consent-text>I agree to receive follow-up and marketing communications from Apiary Foundry. I can opt out later.</span></label><button class="button amber" type="submit">Send diagnostic request</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></div></section>'''
 
@@ -379,11 +407,12 @@ def render_page(page: Page) -> str:
 </head>
 <body class="{page_class}">
   <a class="skip" href="#main">Skip to content</a>
-  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><div class="nav-links">{nav_html(slug)}</div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
+  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><button class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu"><svg class="hamburger-svg" viewBox="0 0 40 32" aria-hidden="true"><path class="h-line top" d="M8 6L14 3L20 6L20 12L14 15L8 12Z"/><path class="h-line mid" d="M8 14L14 11L20 14L20 20L14 23L8 20Z"/><path class="h-line bot" d="M8 22L14 19L20 22L20 28L14 31L8 28Z"/></svg></button><div class="nav-links" id="nav-menu" aria-expanded="false">{nav_html(slug)}</div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
   <main id="main">{hero}{html_body}{final_section}</main>
 {NEWSLETTER_STRIP}
-  <footer class="container"><span>© 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
+  <footer class="container"><span>&copy; 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
   <a class="button amber mobile-cta" href="/work-with-us/">Start diagnostic</a>
+{HAMBURGER_JS}
   <script src="/assets/apiary-lead-capture.js?v=20260520-crm" defer></script>
 </body>
 </html>'''

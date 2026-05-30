@@ -20,7 +20,7 @@
 </head>
 <body class="subpage">
   <a class="skip" href="#main">Skip to content</a>
-  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><div class="nav-links"><a href="/">Home</a><a href="/measurement-engine/">Measurement Engine</a><a href="/growth-os/">Growth OS</a><a href="/five-hives/">Five Hives</a><a href="/about-willie-peacock/">Willie</a><a href="/proof/">Proof</a><a href="/blog/">Blog</a><a href="/work-with-us/">Work With Us</a></div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
+  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><button class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu"><svg class="hamburger-svg" viewBox="0 0 40 32" aria-hidden="true"><path class="h-line top" d="M8 6L14 3L20 6L20 12L14 15L8 12Z"/><path class="h-line mid" d="M8 14L14 11L20 14L20 20L14 23L8 20Z"/><path class="h-line bot" d="M8 22L14 19L20 22L20 28L14 31L8 28Z"/></svg></button><div class="nav-links" id="nav-menu" aria-expanded="false"><a href="/">Home</a><a href="/measurement-engine/">Measurement Engine</a><a href="/growth-os/">Growth OS</a><a href="/five-hives/">Five Hives</a><a href="/about-willie-peacock/">Willie</a><a href="/proof/">Proof</a><a href="/blog/">Blog</a><a href="/work-with-us/">Work With Us</a></div><a class="button amber nav-cta" href="/work-with-us/">Start diagnostic</a></nav></div>
   <main id="main"><header class="hero container">
       <div class="hero-grid"><div><p class="eyebrow">Apiary Foundry / operator-led growth system</p><h1>The hive that decides what gets funded.</h1><p class="lede">The Measurement Hive builds the tracking, attribution, dashboard, and feedback systems that let marketing teams make budget decisions from evidence.</p><p class="lede">This is the AF doctrine in operational form: what gets measured gets funded.</p>
       <div class="hero-actions"><a class="button amber" href="/work-with-us/">Work with Apiary Foundry</a><a class="ghost" href="/five-hives/">See the five hives</a></div></div><div class="workbench-card" aria-label="Apiary workbench">
@@ -90,9 +90,36 @@
 </ul></div></div></section>
 <section class="content-section"><div class="container"><div class="section-kicker">06</div><h2>Build measurement the business can trust.</h2><div class="rich-copy"><p>If the team cannot use the dashboard to move money with confidence, AF should inspect the Measurement Hive.</p>
 <p class="inline-cta"><a class="button amber" href="/work-with-us/">Audit measurement</a></p></div></div></section><section class="container final-section"><div class="final-card"><div><p class="eyebrow">Work with Apiary Foundry</p><h2>Stop funding motion. Fund what works.</h2><p>If the team is busy and the scoreboard is still suspect, bring the system into focus.</p></div><div class="cta-stack"><a class="button amber" href="/work-with-us/">Start with a growth system audit</a><a class="ghost" href="/measurement-engine/">Build the measurement engine</a></div></div></section></main>
-<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" checked /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later.</span></label><button class="button amber" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>
+<section class="newsletter-strip container" aria-label="Apiary Foundry newsletter"><div><p class="eyebrow">Field notes</p><h2>Get measurable growth notes.</h2><p>Tracking, lead capture, attribution, lifecycle, and AI-assisted operations. Useful, not ornamental.</p></div><form class="lead-form compact newsletter-form" data-apiary-lead-form data-source-form="footer_newsletter" data-event-name="newsletter_signup" data-form-location="global-footer"><label>Email<input name="email" type="email" autocomplete="email" placeholder="you@company.com" required /></label><label class="checkbox full"><input name="marketing_consent" type="checkbox" value="yes" checked /><span data-consent-text>I agree to receive Apiary Foundry field notes and marketing communications. I can opt out later.</span></label><button class="button" type="submit">Subscribe</button><p class="form-status" data-form-status role="status" aria-live="polite"></p></form></section>
   <footer class="container"><span>© 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
   <a class="button amber mobile-cta" href="/work-with-us/">Start diagnostic</a>
+  <script>
+(function(){
+  var h=document.querySelector('.hamburger');
+  var n=document.getElementById('nav-menu');
+  if(!h||!n)return;
+  h.addEventListener('click',function(){
+    var e=h.getAttribute('aria-expanded')==='true';
+    h.setAttribute('aria-expanded',!e);
+    n.setAttribute('aria-expanded',!e);
+    document.body.style.overflow=e?'':'hidden';
+  });
+  n.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      h.setAttribute('aria-expanded','false');
+      n.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    });
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&h.getAttribute('aria-expanded')==='true'){
+      h.setAttribute('aria-expanded','false');
+      n.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
   <script src="/assets/apiary-lead-capture.js?v=20260520-crm" defer></script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+{
+  "name": "apiary-foundry-e2e",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:update-snapshots": "playwright test --update-snapshots",
+    "install-browsers": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0"
+  }
+}
