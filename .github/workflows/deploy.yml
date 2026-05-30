@@ -17,9 +17,16 @@ jobs:
           ssh-private-key: ${{ secrets.HETZNER_DEPLOY_KEY }}
           log-public-key: false
 
-      - name: Deploy
+      - name: Deploy via rsync + compose
         run: |
           ssh -o StrictHostKeyChecking=accept-new \
               -o UserKnownHostsFile=/dev/null \
               root@37.27.49.209 \
-              "cd /opt/apiary-foundry-site && git pull && docker compose up --build -d"
+              "mkdir -p /opt/apiary-foundry-site && cd /opt/apiary-foundry-site && docker compose down || true"
+          rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
+            ./ root@37.27.49.209:/opt/apiary-foundry-site/
+          ssh -o StrictHostKeyChecking=accept-new \
+              -o UserKnownHostsFile=/dev/null \
+              root@37.27.49.209 \
+              "cd /opt/apiary-foundry-site && docker compose up --build -d"
