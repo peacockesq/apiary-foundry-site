@@ -22,11 +22,11 @@ jobs:
           ssh -o StrictHostKeyChecking=accept-new \
               -o UserKnownHostsFile=/dev/null \
               root@37.27.49.209 \
-              "mkdir -p /opt/apiary-foundry-site && cd /opt/apiary-foundry-site && docker compose down || true"
+              "mkdir -p /opt/apiary-foundry-site && cd /opt/apiary-foundry-site && docker compose down --remove-orphans || true; docker rm -f apiary-foundry-site || true"
           rsync -avz --delete \
             -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
             ./ root@37.27.49.209:/opt/apiary-foundry-site/
           ssh -o StrictHostKeyChecking=accept-new \
               -o UserKnownHostsFile=/dev/null \
               root@37.27.49.209 \
-              "cd /opt/apiary-foundry-site && docker compose up --build -d"
+              "cd /opt/apiary-foundry-site && docker compose up --build -d --force-recreate"
