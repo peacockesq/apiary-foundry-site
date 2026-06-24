@@ -44,7 +44,7 @@ NAV = [
     ('/work-with-us/', 'Work With Us'),
 ]
 
-ASSET_VERSION = '20260624a'
+ASSET_VERSION = '20260624c'
 MAUTIC_HEAD = '''  <script>
     (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)})(window,document,'script','https://mautic.apiaryfoundry.com/mtc.js','mt');
     mt('send', 'pageview');
@@ -256,11 +256,10 @@ def nav_html(active: str) -> str:
 
 def hero_diagram(kind: str) -> str:
     if kind == '/':
-        cells = [
-            ('Acquisition', 'paid + demand'), ('Content', 'intent + voice'), ('Conversion', 'offer + proof'),
-            ('Lifecycle', 'CRM + follow-up'), ('Measurement', 'truth + budget')
-        ]
-        return system_orb('Growth OS', 'operator-led', cells)
+        return '''<aside class="founder-hero-panel" aria-label="Founder-led operator proof">
+          <figure class="founder-portrait-large"><img src="/assets/willie-peacock-founder-scene.jpg" alt="Willie Peacock on a mountain overlook" loading="eager" decoding="async" /><figcaption><span>operator-led</span><strong>Willie Peacock</strong></figcaption></figure>
+          <div class="operator-proof-grid"><div class="operator-proof primary"><span>43</span><b>consecutive profitable months.</b><p>Six- and seven-figure lead-gen spend. Guaranteed ROI. Not “good quarters.” Not “blended success.” Profitable every single month for 43 straight months before the program was handed off.</p></div><div class="operator-proof"><b>Systems before spend.</b><p>Tracking, lifecycle, dashboards, and AI review loops before budget gets scaled.</p></div></div>
+        </aside>'''
     if 'measurement-engine' in kind:
         return '''<div class="data-chain" aria-label="Measurement engine data path">
           <div>Ad click<small>gclid / fbclid</small></div><span></span><div>Landing page<small>UTM + form</small></div><span></span><div>CRM<small>stage + source</small></div><span></span><div>Warehouse<small>normalized truth</small></div><span></span><div>Dashboard<small>budget decision</small></div>
@@ -337,7 +336,7 @@ def render_page(page: Page) -> str:
     page_class = 'home' if page.slug == '/' else 'subpage'
     proof_band = ''
     if page.slug == '/':
-        proof_band = '''<div class="founder-band"><div class="portrait-token">WP</div><div><p class="eyebrow">Operator credibility</p><h2>Led by Willie Peacock.</h2><p>Attorney, Chicago Booth MBA candidate, paid media and growth operator, and builder of measurement systems that preserve the data most teams lose.</p></div><div class="proof-chip"><b>43 consecutive profitable months.</b><span>Six- and seven-figure lead-gen spend. Guaranteed ROI. Not “good quarters.” Not “blended success.” Profitable every single month for 43 straight months before the program was handed off.</span></div></div>'''
+        proof_band = ''
 
     body = []
     # Special doctrine band if content includes it.
