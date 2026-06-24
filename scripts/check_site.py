@@ -21,6 +21,7 @@ required_pages = {
     "proof/": "Proof beats theater.",
     "work-with-us/": "Bring order to the marketing system.",
     "blog/": "Operator notes on measurable growth.",
+    "blog/deterministic-vs-agentic-marketing-systems/": "Deterministic vs. agentic marketing systems.",
     "trust/": "An attorney runs the system.",
     "proof/military-com/": "The ads were so bad that nobody noticed when they stopped.",
     "proof/upgradedpoints/": "43 consecutive profitable months.",
