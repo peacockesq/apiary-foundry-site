@@ -10,7 +10,17 @@ const PAGES = [
   { path: '/blog/', name: 'Blog' },
   { path: '/blog/deterministic-vs-agentic-marketing-systems/', name: 'Deterministic vs Agentic' },
   { path: '/work-with-us/', name: 'Work With Us' },
+  { path: '/privacy-policy/', name: 'Privacy Policy' },
+  { path: '/terms-of-service/', name: 'Terms of Service' },
   { path: '/trust/', name: 'Trust' },
+];
+
+const PR19_QA_PAGES = [
+  { path: '/', heading: /random acts of marketing/i },
+  { path: '/work-with-us/', heading: /bring order to the marketing system/i },
+  { path: '/privacy-policy/', heading: /privacy policy/i },
+  { path: '/terms-of-service/', heading: /terms of service/i },
+  { path: '/measurement-engine/', heading: /infrastructure behind fundable marketing/i },
 ];
 
 // ─── Visual QA: full-page screenshots ─────────────────────────
@@ -171,7 +181,80 @@ test.describe('Lead forms', () => {
   test('work-with-us diagnostic form exists', async ({ page }) => {
     await page.goto('/work-with-us/');
     await expect(page.locator('#apiary-growth-diagnostic')).toBeVisible();
+    await expect(page.locator('#apiary-growth-diagnostic input[name="marketing_consent"]')).toHaveAttribute('required', '');
+    await expect(page.locator('#apiary-growth-diagnostic [data-consent-text]')).toContainText('Privacy Policy');
+    await expect(page.locator('#apiary-growth-diagnostic [data-consent-text]')).toContainText('Terms of Service');
   });
+
+  test('diagnostic submit preserves attribution and shows booking CTA without leaving the site', async ({ page }) => {
+    let capturedPayload: any = null;
+    await page.route('https://n8n.esq2u.com/webhook/apiary-foundry/lead', async (route) => {
+      capturedPayload = JSON.parse(route.request().postData() || '{}');
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
+    });
+
+    await page.goto('/work-with-us/?utm_source=qa&utm_campaign=pr19-rebuild&gclid=test-click');
+    const form = page.locator('#apiary-growth-diagnostic');
+    await form.locator('input[name="name"]').fill('QA Lead');
+    await form.locator('input[name="email"]').fill('qa@example.com');
+    await form.locator('textarea[name="message"]').fill('Browser QA only. Do not create a real external lead.');
+    await form.locator('input[name="marketing_consent"]').check();
+    await form.locator('button[type="submit"]').click();
+
+    const status = form.locator('[data-form-status]');
+    await expect(status).toContainText('Received');
+    await expect(page).toHaveURL(/\/work-with-us\//);
+    expect(capturedPayload).toMatchObject({
+      email: 'qa@example.com',
+      consent_status: 'granted',
+      utm_source: 'qa',
+      utm_campaign: 'pr19-rebuild',
+      gclid: 'test-click',
+      source_form: 'growth_diagnostic',
+    });
+    const bookingHref = await status.locator('a[data-booking-link]').getAttribute('href');
+    expect(bookingHref).toContain('tidycal.com/peacockesq/apiary-foundry-1-1-chats');
+    expect(bookingHref).toContain('email=qa%40example.com');
+    expect(bookingHref).toContain('utm_source=qa');
+    expect(bookingHref).toContain('gclid=test-click');
+  });
+});
+
+// ─── PR #19 rebuilt-value browser QA ───────────────────────────────────
+test.describe('PR #19 rebuilt legal and lead-capture value', () => {
+  for (const { path, heading } of PR19_QA_PAGES) {
+    test(`${path} renders with lead-capture JS and no public console errors`, async ({ page }) => {
+      const consoleErrors: string[] = [];
+      const pageErrors: string[] = [];
+      const leadCaptureResponses: number[] = [];
+
+      page.on('console', (message) => {
+        if (message.type() === 'error') consoleErrors.push(message.text());
+      });
+      page.on('pageerror', (error) => pageErrors.push(error.message));
+      page.on('response', (response) => {
+        if (response.url().includes('/assets/apiary-lead-capture.js')) {
+          leadCaptureResponses.push(response.status());
+        }
+      });
+
+      await page.route('https://mautic.apiaryfoundry.com/mtc.js', async (route) => {
+        await route.fulfill({ status: 200, contentType: 'application/javascript', body: 'window.mt = window.mt || function(){};' });
+      });
+
+      const response = await page.goto(path);
+      expect(response?.status()).toBe(200);
+      await expect(page.locator('h1').first()).toContainText(heading);
+      await expect(page.locator('footer a[href="/privacy-policy/"]')).toBeVisible();
+      await expect(page.locator('footer a[href="/terms-of-service/"]')).toBeVisible();
+      await expect(page.locator('form[data-apiary-lead-form]').first()).toBeVisible();
+      await page.waitForLoadState('networkidle');
+
+      expect(leadCaptureResponses).toContain(200);
+      expect(consoleErrors).toEqual([]);
+      expect(pageErrors).toEqual([]);
+    });
+  }
 });
 
 // ─── Smoke: no 404s ───────────────────────────────────────────────────

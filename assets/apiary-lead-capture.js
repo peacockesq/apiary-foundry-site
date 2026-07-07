@@ -21,14 +21,12 @@
     const params = new URLSearchParams(window.location.search);
     const stored = readStoredAttribution();
     const next = { ...stored };
-    let changed = false;
 
     ATTR_KEYS.forEach((key) => {
       const value = params.get(key);
       if (value) {
         next[key] = value;
         next[`${key}_captured_at`] = nowIso();
-        changed = true;
       }
     });
 
@@ -36,7 +34,6 @@
       next.first_landing_page_url = currentUrl();
       next.first_referrer_url = document.referrer || '';
       next.first_seen_at = nowIso();
-      changed = true;
     }
 
     next.last_page_url = currentUrl();
@@ -53,6 +50,26 @@
     stored[key] = id;
     writeStoredAttribution(stored);
     return id;
+  }
+
+  function bookingUrlFor(email) {
+    const url = new URL(BOOKING_URL);
+    const cleanEmail = String(email || '').trim();
+    const attribution = readStoredAttribution();
+    if (cleanEmail) url.searchParams.set('email', cleanEmail);
+    ATTR_KEYS.forEach((key) => {
+      const value = attribution[key];
+      if (value) url.searchParams.set(key, value);
+    });
+    if (attribution.first_landing_page_url) url.searchParams.set('landing_page_url', attribution.first_landing_page_url);
+    if (attribution.first_referrer_url) url.searchParams.set('referrer_url', attribution.first_referrer_url);
+    return url.toString();
+  }
+
+  function refreshBookingLinks(email) {
+    document.querySelectorAll('[data-booking-link]').forEach((link) => {
+      link.setAttribute('href', bookingUrlFor(email || link.dataset.email || ''));
+    });
   }
 
   function formToPayload(form) {
@@ -97,10 +114,11 @@
     return payload;
   }
 
-  function setStatus(form, message, state) {
+  function setStatus(form, message, state, html) {
     const status = form.querySelector('[data-form-status]');
     if (!status) return;
-    status.textContent = message;
+    if (html) status.innerHTML = message;
+    else status.textContent = message;
     status.dataset.state = state || '';
   }
 
@@ -108,6 +126,10 @@
     const payload = formToPayload(form);
     if (!payload.email) {
       setStatus(form, 'Email is required. No mystery meat.', 'error');
+      return;
+    }
+    if (form.querySelector('[name="marketing_consent"]') && !payload.properties.marketing_consent) {
+      setStatus(form, 'Please check the consent box so Apiary Foundry can follow up.', 'error');
       return;
     }
 
@@ -122,9 +144,15 @@
         body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setStatus(form, 'Received. Redirecting you to book the 30-minute Apiary Foundry chat...', 'success');
+      const link = bookingUrlFor(payload.email);
+      refreshBookingLinks(payload.email);
+      setStatus(
+        form,
+        `Received. You are on the list. If you want the free 30-minute audit call too, <a href="${link}" data-booking-link>book it here</a>.`,
+        'success',
+        true
+      );
       form.reset();
-      window.location.assign(BOOKING_URL);
     } catch (error) {
       setStatus(form, 'Submission failed. Email team@williepeacock.com and mention Apiary Foundry.', 'error');
       console.error('Apiary lead capture failed', error);
@@ -135,6 +163,10 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     captureAttribution();
+    refreshBookingLinks('');
+    document.querySelectorAll('[name="email"]').forEach((input) => {
+      input.addEventListener('input', () => refreshBookingLinks(input.value));
+    });
     document.querySelectorAll('form[data-apiary-lead-form]').forEach((form) => {
       form.addEventListener('submit', (event) => {
         event.preventDefault();
