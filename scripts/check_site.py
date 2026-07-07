@@ -115,8 +115,32 @@ if 'name="phone"' in work_html or 'name="company"' in work_html:
     errors.append("diagnostic form still asks for phone/company on the mobile-critical page")
 if 'aria-label="Apiary engagement flow"' not in work_html:
     errors.append("work-with-us missing visual engagement flow break")
-if "127.0.0.1:8080" not in (root / "Dockerfile").read_text():
+dockerfile = (root / "Dockerfile").read_text()
+if "127.0.0.1:8080" not in dockerfile:
     errors.append("Docker healthcheck must use 127.0.0.1:8080")
+
+required_docker_copy_paths = [
+    "assets",
+    "about-willie-peacock",
+    "measurement-engine",
+    "growth-os",
+    "five-hives",
+    "paid-media-acquisition",
+    "seo-content-marketing",
+    "conversion-rate-optimization",
+    "lifecycle-crm",
+    "marketing-measurement-attribution",
+    "proof",
+    "trust",
+    "privacy-policy",
+    "terms-of-service",
+    "blog",
+    "work-with-us",
+]
+for route in required_docker_copy_paths:
+    expected = f"COPY {route} /usr/share/nginx/html/{route}"
+    if expected not in dockerfile:
+        errors.append(f"Dockerfile missing static route copy: {expected}")
 
 if errors:
     print("FAIL")

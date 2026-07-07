@@ -13,6 +13,8 @@ COPY lifecycle-crm /usr/share/nginx/html/lifecycle-crm
 COPY marketing-measurement-attribution /usr/share/nginx/html/marketing-measurement-attribution
 COPY proof /usr/share/nginx/html/proof
 COPY trust /usr/share/nginx/html/trust
+COPY privacy-policy /usr/share/nginx/html/privacy-policy
+COPY terms-of-service /usr/share/nginx/html/terms-of-service
 COPY blog /usr/share/nginx/html/blog
 COPY work-with-us /usr/share/nginx/html/work-with-us
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 CMD wget -qO- http://127.0.0.1:8080/ >/dev/null || exit 1
