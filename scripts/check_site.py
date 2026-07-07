@@ -20,6 +20,8 @@ required_pages = {
     "marketing-measurement-attribution/": "The hive that decides what gets funded.",
     "proof/": "Proof beats theater.",
     "work-with-us/": "Bring order to the marketing system.",
+    "privacy-policy/": "Privacy Policy",
+    "terms-of-service/": "Terms of Service",
     "blog/": "Operator notes on measurable growth.",
     "blog/deterministic-vs-agentic-marketing-systems/": "Deterministic vs. agentic marketing systems.",
     "trust/": "An attorney runs the system.",
@@ -78,6 +80,16 @@ for required in ["operator-led growth system", "marketing and business process s
         errors.append(f"missing global phrase: {required}")
 if len(css) < 10000:
     errors.append("css unexpectedly small")
+
+for asset_name in ["assets/favicon.svg", "assets/apiary-lead-capture.js"]:
+    if not (root / asset_name).exists():
+        errors.append(f"missing asset: {asset_name}")
+if "/privacy-policy/" not in public_html or "/terms-of-service/" not in public_html:
+    errors.append("missing legal footer/consent links")
+if 'name="marketing_consent" type="checkbox" value="yes" required' not in public_html:
+    errors.append("marketing consent checkbox is not explicitly required")
+if "bookingUrlFor" not in (root / "assets" / "apiary-lead-capture.js").read_text():
+    errors.append("lead capture script missing attribution-preserving booking URL helper")
 if "@media(max-width:1080px){.nav-links{display:none}" in css:
     errors.append("mobile navigation is hidden without a replacement menu")
 for mobile_nav_required in [

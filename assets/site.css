@@ -82,3 +82,5 @@
 .operator-proof.primary p{color:#dfd2c0}
 @media(max-width:1080px){.founder-hero-panel{max-width:720px}.founder-portrait-large{min-height:440px}.founder-portrait-large img{min-height:440px}.operator-proof-grid{grid-template-columns:1fr}}
 @media(max-width:680px){.founder-portrait-large{min-height:360px;border-radius:28px}.founder-portrait-large img{min-height:360px}.operator-proof{padding:18px}.operator-proof span{font-size:56px}}
+
+.legal-page .hero{padding-bottom:22px}.legal-copy{max-width:900px}.legal-copy h2{margin-top:2rem}.legal-copy ul{padding-left:1.2rem}.legal-copy a,footer a,.checkbox a,.form-status a{color:inherit;text-decoration:underline;text-underline-offset:3px}.form-status a{font-weight:900}
