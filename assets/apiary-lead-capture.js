@@ -122,9 +122,14 @@
         body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      setStatus(form, 'Received. Redirecting you to book the 30-minute Apiary Foundry chat...', 'success');
+      const isDiagnosticRequest = payload.event_name === 'growth_diagnostic_requested';
       form.reset();
-      window.location.assign(BOOKING_URL);
+      if (isDiagnosticRequest) {
+        setStatus(form, 'Received. Redirecting you to book the 30-minute Apiary Foundry chat...', 'success');
+        window.location.assign(BOOKING_URL);
+      } else {
+        setStatus(form, 'You’re subscribed. Field notes will arrive when they are worth sending.', 'success');
+      }
     } catch (error) {
       setStatus(form, 'Submission failed. Email team@williepeacock.com and mention Apiary Foundry.', 'error');
       console.error('Apiary lead capture failed', error);

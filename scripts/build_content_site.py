@@ -412,7 +412,7 @@ def render_page(page: Page) -> str:
   <footer class="container"><span>&copy; 2026 Apiary Foundry.</span><span>The cure for random acts of marketing.</span></footer>
   <a class="button amber mobile-cta" href="/work-with-us/">Start with a growth system audit</a>
 {HAMBURGER_JS}
-  <script src="/assets/apiary-lead-capture.js?v=20260520-crm" defer></script>
+  <script src="/assets/apiary-lead-capture.js?v=20260711-newsletter" defer></script>
 </body>
 </html>'''
 

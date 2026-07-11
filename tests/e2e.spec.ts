@@ -168,6 +168,18 @@ test.describe('Lead forms', () => {
     expect(validationMessage.length).toBeGreaterThan(0);
   });
 
+  test('newsletter success stays on-site instead of redirecting to booking', async ({ page }) => {
+    await page.route('https://n8n.esq2u.com/webhook/apiary-foundry/lead', async (route) => {
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' });
+    });
+    await page.goto('/');
+    const form = page.locator('.newsletter-form');
+    await form.locator('input[type="email"]').fill('newsletter-test@example.com');
+    await form.locator('button').click();
+    await expect(form.locator('[data-form-status]')).toHaveText(/You’re subscribed/);
+    await expect(page).toHaveURL(/\/$/);
+  });
+
   test('work-with-us diagnostic form exists', async ({ page }) => {
     await page.goto('/work-with-us/');
     await expect(page.locator('#apiary-growth-diagnostic')).toBeVisible();
