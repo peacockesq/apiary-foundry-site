@@ -104,6 +104,25 @@ test.describe('Navigation — Mobile Hamburger', () => {
     await expect(cta).toBeVisible();
     await expect(cta).toHaveAttribute('href', '/work-with-us/');
   });
+
+  test('skip link does not expand the mobile document and remains keyboard reachable', async ({ page }) => {
+    await page.goto('/');
+    const metrics = await page.evaluate(() => ({
+      clientWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+    }));
+    expect(metrics.scrollWidth).toBe(metrics.clientWidth);
+    const skip = page.locator('.skip');
+    const hiddenBox = await skip.boundingBox();
+    expect(hiddenBox).not.toBeNull();
+    expect(hiddenBox!.y + hiddenBox!.height).toBeLessThanOrEqual(0);
+    await skip.focus();
+    await expect(skip).toBeVisible();
+    const box = await skip.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.y).toBeGreaterThanOrEqual(0);
+  });
 });
 
 // ─── Contrast QA ───────────────────────────────────────────────────────

@@ -112,6 +112,7 @@ for brand_system_required in [
     ".button:hover { background: var(--charcoal); color: var(--white); }",
     "border-radius: 2px",
     "prefers-reduced-motion: reduce",
+    "transform: translateY(calc(-100% - 24px))",
 ]:
     if brand_system_required not in css:
         errors.append(f"missing approved brand-system rule: {brand_system_required}")
@@ -121,6 +122,7 @@ for mobile_required in [
     ".mobile-cta",
     ".lead-form input",
     ".newsletter-strip",
+    ".hero-honeycomb { overflow: hidden; }",
     ".subpage:has(#diagnostic) .mobile-cta",
 ]:
     if mobile_required not in css:
