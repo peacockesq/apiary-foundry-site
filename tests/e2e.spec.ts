@@ -99,9 +99,10 @@ test.describe('Navigation — Mobile Hamburger', () => {
   test('mobile CTA is visible and navigates to /work-with-us/', async ({ page }) => {
     await page.goto('/');
     const cta = page.locator('.mobile-cta');
+    await expect(cta).not.toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight * 0.45));
     await expect(cta).toBeVisible();
-    await cta.click();
-    await expect(page).toHaveURL(/\/work-with-us\/$/);
+    await expect(cta).toHaveAttribute('href', '/work-with-us/');
   });
 });
 

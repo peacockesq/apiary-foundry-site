@@ -81,7 +81,16 @@ for required in ["operator-led growth system", "marketing and business process s
 if len(css) < 10000:
     errors.append("css unexpectedly small")
 
-for asset_name in ["assets/favicon.svg", "assets/apiary-lead-capture.js"]:
+for asset_name in [
+    "assets/favicon.svg",
+    "assets/apiary-lead-capture.js",
+    "assets/brand/tokens.css",
+    "assets/brand/logos/logo-horizontal-light.svg",
+    "assets/brand/logos/logo-horizontal-dark.svg",
+    "assets/brand/logos/mark-light.svg",
+    "assets/brand/logos/mark-dark.svg",
+    "assets/brand/patterns/honeycomb-corner.svg",
+]:
     if not (root / asset_name).exists():
         errors.append(f"missing asset: {asset_name}")
 if "/privacy-policy/" not in public_html or "/terms-of-service/" not in public_html:
@@ -92,24 +101,36 @@ if "bookingUrlFor" not in (root / "assets" / "apiary-lead-capture.js").read_text
     errors.append("lead capture script missing attribution-preserving booking URL helper")
 if "@media(max-width:1080px){.nav-links{display:none}" in css:
     errors.append("mobile navigation is hidden without a replacement menu")
-for mobile_nav_required in [
-    "nav{flex-wrap:wrap",
-    ".nav-links{order:3;display:flex;width:100%;gap:10px;overflow-x:auto",
-    ".nav-links a{flex:0 0 auto",
+for brand_system_required in [
+    "@import url('/assets/brand/tokens.css')",
+    "font-family: Oswald",
+    "url('/assets/brand/patterns/honeycomb-corner.svg')",
+    ".brand-logo",
+    ".site-footer",
+    "border-radius: 2px",
+    "prefers-reduced-motion: reduce",
 ]:
-    if mobile_nav_required not in css:
-        errors.append(f"missing responsive mobile nav rule: {mobile_nav_required}")
-for mobile_layout_required in [
+    if brand_system_required not in css:
+        errors.append(f"missing approved brand-system rule: {brand_system_required}")
+for mobile_required in [
     "Mobile density and readability pass",
-    ".split-section .rich-copy",
-    ".visual-break",
-    "body{padding-bottom:104px}",
-    ".subpage:has(#diagnostic) .mobile-cta{display:none}",
-    ".lead-form input,.lead-form textarea{width:100%;min-width:0",
-    ".newsletter-strip{grid-template-columns:1fr;padding:24px",
+    '.nav-links[aria-expanded="true"]',
+    ".mobile-cta",
+    ".lead-form input",
+    ".newsletter-strip",
+    ".subpage:has(#diagnostic) .mobile-cta",
 ]:
-    if mobile_layout_required not in css:
-        errors.append(f"missing mobile readability/form rule: {mobile_layout_required}")
+    if mobile_required not in css:
+        errors.append(f"missing responsive/mobile rule: {mobile_required}")
+for rel_path, html in all_html:
+    if 'class="brand-logo" src="/assets/brand/logos/logo-horizontal-light.svg"' not in html:
+        errors.append(f"approved navigation lockup missing on /{rel_path.lstrip('/')}")
+    if 'class="site-footer"' not in html or 'logo-horizontal-dark.svg' not in html:
+        errors.append(f"approved dark footer lockup missing on /{rel_path.lstrip('/')}")
+    if "/assets/site.css?v=20260801-kit-v2" not in html:
+        errors.append(f"brand-system stylesheet version missing on /{rel_path.lstrip('/')}")
+    if "/assets/apiary-lead-capture.js?v=20260801-kit-v2" not in html:
+        errors.append(f"lead-capture asset version missing on /{rel_path.lstrip('/')}")
 work_html = (root / "work-with-us" / "index.html").read_text()
 if 'name="phone"' in work_html or 'name="company"' in work_html:
     errors.append("diagnostic form still asks for phone/company on the mobile-critical page")

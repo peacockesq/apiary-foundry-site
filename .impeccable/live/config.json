@@ -1,0 +1,14 @@
+{
+  "files": [
+    "**/*.html"
+  ],
+  "exclude": [
+    "node_modules/**",
+    ".git/**",
+    "playwright-report/**",
+    "test-results/**"
+  ],
+  "insertBefore": "</body>",
+  "commentSyntax": "html",
+  "cspChecked": true
+}
