@@ -70,7 +70,7 @@ p { text-wrap: pretty; }
 .skip {
   position: fixed;
   top: 10px;
-  left: -999px;
+  left: 10px;
   z-index: 100;
   padding: 10px 14px;
   border: 2px solid var(--honey);
@@ -78,9 +78,10 @@ p { text-wrap: pretty; }
   background: var(--coal);
   color: var(--white);
   font-weight: 800;
+  transform: translateY(calc(-100% - 24px));
 }
 
-.skip:focus { left: 10px; }
+.skip:focus { transform: translateY(0); }
 
 /* Masthead */
 .nav-wrap {
@@ -900,6 +901,7 @@ h3 {
   .nav-links a::after { content: "→"; color: var(--ochre); }
   .hero { padding: 52px 0 46px; }
   .hero::after { display: none; }
+  .hero-honeycomb { overflow: hidden; }
   .hero-grid { gap: 36px; }
   h1 { max-width: 15ch; font-size: clamp(3rem, 15vw, 4.65rem); }
   h2 { font-size: clamp(2.35rem, 11vw, 3.5rem); }
