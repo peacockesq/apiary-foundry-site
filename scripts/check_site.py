@@ -102,11 +102,12 @@ if "bookingUrlFor" not in (root / "assets" / "apiary-lead-capture.js").read_text
 if "@media(max-width:1080px){.nav-links{display:none}" in css:
     errors.append("mobile navigation is hidden without a replacement menu")
 for brand_system_required in [
-    "@import url('/assets/brand/tokens.css')",
+    "@import url('/assets/brand/tokens.css?v=20260801-kit-v2')",
     "font-family: Oswald",
     "url('/assets/brand/patterns/honeycomb-corner.svg')",
     ".brand-logo",
     ".site-footer",
+    "color: var(--amber-deep)",
     "border-radius: 2px",
     "prefers-reduced-motion: reduce",
 ]:

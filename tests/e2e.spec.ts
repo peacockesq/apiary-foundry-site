@@ -109,7 +109,7 @@ test.describe('Navigation — Mobile Hamburger', () => {
 // ─── Contrast QA ───────────────────────────────────────────────────────
 test.describe('Contrast QA', () => {
   async function getContrastRatio(page: any, fg: string, bg: string): Promise<number> {
-    return page.evaluate((f: string, b: string) => {
+    return page.evaluate(({ f, b }: { f: string; b: string }) => {
       const rgb = (hex: string) => {
         const h = hex.replace('#', '');
         return [
@@ -125,7 +125,7 @@ test.describe('Contrast QA', () => {
       const L1 = lum(rgb(f)) + 0.05;
       const L2 = lum(rgb(b)) + 0.05;
       return L1 > L2 ? L1 / L2 : L2 / L1;
-    }, fg, bg);
+    }, { f: fg, b: bg });
   }
 
   test('nav pills on dark background have sufficient contrast', async ({ page }) => {
@@ -162,6 +162,11 @@ test.describe('Contrast QA', () => {
       // Skip if both are transparent (shouldn't happen for CTAs)
       expect(color).not.toBe('rgba(0, 0, 0, 0)');
     }
+  });
+
+  test('small warm labels meet WCAG AA against paper', async ({ page }) => {
+    const ratio = await getContrastRatio(page, '#8C4F00', '#F6F1E8');
+    expect(ratio).toBeGreaterThanOrEqual(4.5);
   });
 });
 

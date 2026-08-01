@@ -1,4 +1,4 @@
-@import url('/assets/brand/tokens.css');
+@import url('/assets/brand/tokens.css?v=20260801-kit-v2');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Inter:wght@400;500;600;700;800;900&family=Oswald:wght@500;600;700&display=swap');
 
 :root {
@@ -213,7 +213,7 @@ textarea:focus-visible {
 
 .eyebrow {
   margin: 0 0 14px;
-  color: var(--ochre);
+  color: var(--amber-deep);
   font-size: 12px;
 }
 
@@ -332,7 +332,7 @@ h3 {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  color: var(--ochre);
+  color: var(--amber-deep);
   font-size: 13px;
 }
 
