@@ -6,6 +6,7 @@ import sys
 
 root = Path(__file__).resolve().parents[1]
 css = (root / "assets" / "site.css").read_text()
+brand_tokens = (root / "assets" / "brand" / "tokens.css").read_text()
 
 required_pages = {
     "": "The cure for random acts of marketing.",
@@ -101,13 +102,15 @@ if "bookingUrlFor" not in (root / "assets" / "apiary-lead-capture.js").read_text
     errors.append("lead capture script missing attribution-preserving booking URL helper")
 if "@media(max-width:1080px){.nav-links{display:none}" in css:
     errors.append("mobile navigation is hidden without a replacement menu")
+if "--af-amber-deep: #8C4F00" not in brand_tokens:
+    errors.append("runtime brand tokens missing accessible deep amber")
 for brand_system_required in [
     "@import url('/assets/brand/tokens.css?v=20260801-kit-v2')",
     "font-family: Oswald",
     "url('/assets/brand/patterns/honeycomb-corner.svg')",
     ".brand-logo",
     ".site-footer",
-    "--amber-deep: #8C4F00",
+    "--amber-deep: var(--af-amber-deep)",
     "color: var(--amber-deep)",
     ".button:hover { background: var(--charcoal); color: var(--white); }",
     "border-radius: 2px",
