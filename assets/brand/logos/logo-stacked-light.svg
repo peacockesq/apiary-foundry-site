@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-labelledby="title desc">
-<title id="title">Apiary Foundry mark</title><desc id="desc">A bee inside a hexagonal frame.</desc>
-<rect width="200" height="220" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 620" role="img" aria-labelledby="title desc">
+<title id="title">Apiary Foundry stacked logo</title><desc id="desc">Stacked Apiary Foundry logo with bee hexagon mark.</desc>
+<g transform="translate(160,10)">
 <path d="M100 8 L184 56 L184 164 L100 212 L16 164 L16 56 Z" fill="#FBF8F1" stroke="#0F0F10" stroke-width="8"/>
 <path d="M100 18 L176 61" stroke="#E0A21C" stroke-width="5"/>
 <g style="color:#0F0F10;--gold:#E0A21C;--ink:#0F0F10"><g id="bee" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
@@ -11,4 +11,7 @@
   <path d="M100 99 C79 99 76 130 85 151 C90 163 96 171 100 177 C104 171 110 163 115 151 C124 130 121 99 100 99 Z" fill="#E0A21C"/>
   <path d="M82 119 H118 M82 136 H118 M86 152 H114" stroke="#0F0F10"/>
 </g></g>
+</g>
+<text x="260" y="360" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="78" font-weight="700" letter-spacing="10" fill="#0F0F10">APIARY</text>
+<text x="260" y="445" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="45" font-weight="500" letter-spacing="18" fill="#B8750A">FOUNDRY</text>
 </svg>

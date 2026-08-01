@@ -1,0 +1,241 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "meta": {
+    "name": "Apiary Foundry Design System",
+    "version": "0.1.0",
+    "status": "working draft",
+    "note": "Concept-generated visual direction translated into implementation-ready tokens. Logo geometry should receive human vector review before trademark use."
+  },
+  "color": {
+    "coal": {
+      "$value": "#0F0F10",
+      "$type": "color"
+    },
+    "charcoal": {
+      "$value": "#1A1A1C",
+      "$type": "color"
+    },
+    "slate": {
+      "$value": "#2B2B2E",
+      "$type": "color"
+    },
+    "graphite": {
+      "$value": "#515154",
+      "$type": "color"
+    },
+    "cream": {
+      "$value": "#F6F1E8",
+      "$type": "color"
+    },
+    "paper": {
+      "$value": "#FBF8F1",
+      "$type": "color"
+    },
+    "white": {
+      "$value": "#FFFFFF",
+      "$type": "color"
+    },
+    "honey": {
+      "$value": "#E0A21C",
+      "$type": "color"
+    },
+    "amber": {
+      "$value": "#F5C24D",
+      "$type": "color"
+    },
+    "ochre": {
+      "$value": "#B8750A",
+      "$type": "color"
+    },
+    "success": {
+      "$value": "#2E7D52",
+      "$type": "color"
+    },
+    "warning": {
+      "$value": "#D58A00",
+      "$type": "color"
+    },
+    "danger": {
+      "$value": "#B83A32",
+      "$type": "color"
+    }
+  },
+  "font": {
+    "display": {
+      "$value": "Oswald, Impact, Arial Narrow, sans-serif",
+      "$type": "fontFamily"
+    },
+    "body": {
+      "$value": "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+      "$type": "fontFamily"
+    },
+    "mono": {
+      "$value": "IBM Plex Mono, ui-monospace, SFMono-Regular, Menlo, monospace",
+      "$type": "fontFamily"
+    }
+  },
+  "fontSize": {
+    "xs": {
+      "$value": "0.75rem",
+      "$type": "dimension"
+    },
+    "sm": {
+      "$value": "0.875rem",
+      "$type": "dimension"
+    },
+    "base": {
+      "$value": "1rem",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": "1.125rem",
+      "$type": "dimension"
+    },
+    "xl": {
+      "$value": "1.25rem",
+      "$type": "dimension"
+    },
+    "2xl": {
+      "$value": "1.5rem",
+      "$type": "dimension"
+    },
+    "3xl": {
+      "$value": "1.875rem",
+      "$type": "dimension"
+    },
+    "4xl": {
+      "$value": "2.25rem",
+      "$type": "dimension"
+    },
+    "5xl": {
+      "$value": "3rem",
+      "$type": "dimension"
+    },
+    "6xl": {
+      "$value": "3.75rem",
+      "$type": "dimension"
+    },
+    "7xl": {
+      "$value": "4.5rem",
+      "$type": "dimension"
+    }
+  },
+  "space": {
+    "0": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "1": {
+      "$value": "0.25rem",
+      "$type": "dimension"
+    },
+    "2": {
+      "$value": "0.5rem",
+      "$type": "dimension"
+    },
+    "3": {
+      "$value": "0.75rem",
+      "$type": "dimension"
+    },
+    "4": {
+      "$value": "1rem",
+      "$type": "dimension"
+    },
+    "5": {
+      "$value": "1.25rem",
+      "$type": "dimension"
+    },
+    "6": {
+      "$value": "1.5rem",
+      "$type": "dimension"
+    },
+    "8": {
+      "$value": "2rem",
+      "$type": "dimension"
+    },
+    "10": {
+      "$value": "2.5rem",
+      "$type": "dimension"
+    },
+    "12": {
+      "$value": "3rem",
+      "$type": "dimension"
+    },
+    "16": {
+      "$value": "4rem",
+      "$type": "dimension"
+    },
+    "20": {
+      "$value": "5rem",
+      "$type": "dimension"
+    },
+    "24": {
+      "$value": "6rem",
+      "$type": "dimension"
+    },
+    "32": {
+      "$value": "8rem",
+      "$type": "dimension"
+    }
+  },
+  "radius": {
+    "none": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "sm": {
+      "$value": "2px",
+      "$type": "dimension"
+    },
+    "md": {
+      "$value": "6px",
+      "$type": "dimension"
+    },
+    "lg": {
+      "$value": "12px",
+      "$type": "dimension"
+    },
+    "pill": {
+      "$value": "999px",
+      "$type": "dimension"
+    }
+  },
+  "border": {
+    "hairline": {
+      "$value": "1px",
+      "$type": "dimension"
+    },
+    "strong": {
+      "$value": "2px",
+      "$type": "dimension"
+    }
+  },
+  "shadow": {
+    "lift": {
+      "$value": "0 14px 40px rgba(15,15,16,.14)",
+      "$type": "shadow"
+    },
+    "ink": {
+      "$value": "4px 4px 0 rgba(15,15,16,.16)",
+      "$type": "shadow"
+    }
+  },
+  "layout": {
+    "contentMax": {
+      "$value": "80rem",
+      "$type": "dimension"
+    },
+    "readingMax": {
+      "$value": "46rem",
+      "$type": "dimension"
+    },
+    "gutterMobile": {
+      "$value": "1rem",
+      "$type": "dimension"
+    },
+    "gutterDesktop": {
+      "$value": "2rem",
+      "$type": "dimension"
+    }
+  }
+}

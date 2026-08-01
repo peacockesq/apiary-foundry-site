@@ -44,7 +44,7 @@ NAV = [
     ('/work-with-us/', 'Work With Us'),
 ]
 
-ASSET_VERSION = '20260707-legal'
+ASSET_VERSION = '20260801-kit'
 MAUTIC_HEAD = '''  <script>
     (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)})(window,document,'script','https://mautic.apiaryfoundry.com/mtc.js','mt');
     mt('send', 'pageview');
@@ -407,7 +407,7 @@ def render_page(page: Page) -> str:
 </head>
 <body class="{page_class}">
   <a class="skip" href="#main">Skip to content</a>
-  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#d98b24" d="M32 4 52 16v24L32 60 12 40V16z"/><path fill="#171512" d="M32 14 43 21v14L32 46 21 35V21z"/><path fill="#f2c14e" d="M32 20 38 24v8l-6 6-6-6v-8z"/></svg></span><span>Apiary Foundry</span></a><button class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu"><svg class="hamburger-svg" viewBox="0 0 40 32" aria-hidden="true"><path class="h-line top" d="M8 6L14 3L20 6L20 12L14 15L8 12Z"/><path class="h-line mid" d="M8 14L14 11L20 14L20 20L14 23L8 20Z"/><path class="h-line bot" d="M8 22L14 19L20 22L20 28L14 31L8 28Z"/></svg></button><div class="nav-links" id="nav-menu" aria-expanded="false">{nav_html(slug)}</div><a class="button amber nav-cta" href="/work-with-us/">Start with a growth system audit</a></nav></div>
+  <div class="nav-wrap"><nav class="container" aria-label="Primary navigation"><a class="brand" href="/" aria-label="Apiary Foundry home"><img class="brand-logo" src="/assets/brand/logos/logo-horizontal-light.svg" width="205" height="55" alt="Apiary Foundry" /></a><button class="hamburger" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu"><svg class="hamburger-svg" viewBox="0 0 40 32" aria-hidden="true"><path class="h-line top" d="M8 6L14 3L20 6L20 12L14 15L8 12Z"/><path class="h-line mid" d="M8 14L14 11L20 14L20 20L14 23L8 20Z"/><path class="h-line bot" d="M8 22L14 19L20 22L20 28L14 31L8 28Z"/></svg></button><div class="nav-links" id="nav-menu" aria-expanded="false">{nav_html(slug)}</div><a class="button amber nav-cta" href="/work-with-us/">Start with a growth system audit</a></nav></div>
   <main id="main">{hero}{html_body}{final_section}</main>
 {NEWSLETTER_STRIP}
   <footer class="container"><span>&copy; 2026 Apiary Foundry.</span><span><a href="/privacy-policy/">Privacy Policy</a> · <a href="/terms-of-service/">Terms of Service</a></span></footer>
