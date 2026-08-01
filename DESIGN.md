@@ -102,7 +102,7 @@ The SVGs are clean implementation starters, but the final bee geometry and wordm
 ### Color rules
 
 - Gold should occupy roughly **5–12%** of a typical page, not half the screen.
-- Never use honey gold for long body copy on cream. Use ochre or coal.
+- Never use honey gold for long body copy on cream. Use ochre or coal. For small warm labels that must retain the field-manual accent, use the site-derived deep amber `#8C4F00` (5.77:1 on cream), never the lighter ochre.
 - Use dark panels for emphasis, proof, warnings, calls to action, and data—not every section.
 - Avoid gradients except subtle photographic overlays or a restrained honey-to-amber CTA fill.
 

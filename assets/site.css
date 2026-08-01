@@ -15,6 +15,7 @@
   --muted: var(--af-graphite);
   --white: var(--af-white);
   --amber: var(--af-honey);
+  --amber-deep: #8C4F00;
   --gold: var(--af-amber);
   --ochre: var(--af-ochre);
   --green: var(--af-success);
@@ -177,8 +178,8 @@ nav {
   box-shadow: var(--shadow);
 }
 
-.button:hover { background: var(--charcoal); }
-.button.amber:hover { background: var(--amber); }
+.button:hover { background: var(--charcoal); color: var(--white); }
+.button.amber:hover { background: var(--amber); color: var(--coal); }
 .ghost:hover { background: var(--paper-2); }
 
 .nav-cta {
@@ -428,7 +429,7 @@ h3 {
 
 .dark-section h2,
 .dark-section .rich-copy { grid-column: 2; }
-.dark-section .section-kicker { grid-column: 1; }
+.dark-section .section-kicker { grid-column: 1; color: var(--honey); }
 .dark-section .rich-copy { color: #EEE7DB; }
 .dark-section .rich-copy h3 { color: var(--white); }
 .dark-section .rich-copy li {

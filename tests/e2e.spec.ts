@@ -164,8 +164,58 @@ test.describe('Contrast QA', () => {
     }
   });
 
-  test('small warm labels meet WCAG AA against paper', async ({ page }) => {
-    const ratio = await getContrastRatio(page, '#8C4F00', '#F6F1E8');
+  test('small labels meet WCAG AA on their rendered surfaces', async ({ page }) => {
+    await page.goto('/');
+    const labels = page.locator('.eyebrow, .section-kicker');
+    const count = await labels.count();
+    expect(count).toBeGreaterThan(0);
+    let sawDeepAmber = false;
+    for (let i = 0; i < count; i++) {
+      const label = labels.nth(i);
+      if (!(await label.isVisible())) continue;
+      const audit = await label.evaluate((el: HTMLElement) => {
+        const parse = (value: string) => {
+          const parts = value.match(/[\d.]+/g)?.map(Number) || [];
+          return { rgb: parts.slice(0, 3), alpha: parts[3] ?? 1 };
+        };
+        const luminance = (rgb: number[]) => {
+          const values = rgb.map((value) => {
+            const channel = value / 255;
+            return channel <= 0.03928 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+          });
+          return 0.2126 * values[0] + 0.7152 * values[1] + 0.0722 * values[2];
+        };
+        const foreground = parse(getComputedStyle(el).color).rgb;
+        let background = [246, 241, 232];
+        let node: HTMLElement | null = el;
+        while (node) {
+          const candidate = parse(getComputedStyle(node).backgroundColor);
+          if (candidate.alpha >= 0.99 && candidate.rgb.length === 3) {
+            background = candidate.rgb;
+            break;
+          }
+          node = node.parentElement;
+        }
+        const light = Math.max(luminance(foreground), luminance(background));
+        const dark = Math.min(luminance(foreground), luminance(background));
+        return {
+          color: getComputedStyle(el).color,
+          ratio: (light + 0.05) / (dark + 0.05),
+        };
+      });
+      if (audit.color === 'rgb(140, 79, 0)') sawDeepAmber = true;
+      expect(audit.ratio).toBeGreaterThanOrEqual(4.5);
+    }
+    expect(sawDeepAmber).toBe(true);
+  });
+
+  test('newsletter button preserves AA contrast on hover', async ({ page }) => {
+    await page.goto('/');
+    const button = page.locator('.newsletter-form button');
+    await button.hover();
+    await expect(button).toHaveCSS('background-color', 'rgb(26, 26, 28)');
+    await expect(button).toHaveCSS('color', 'rgb(255, 255, 255)');
+    const ratio = await getContrastRatio(page, '#FFFFFF', '#1A1A1C');
     expect(ratio).toBeGreaterThanOrEqual(4.5);
   });
 });

@@ -107,7 +107,9 @@ for brand_system_required in [
     "url('/assets/brand/patterns/honeycomb-corner.svg')",
     ".brand-logo",
     ".site-footer",
+    "--amber-deep: #8C4F00",
     "color: var(--amber-deep)",
+    ".button:hover { background: var(--charcoal); color: var(--white); }",
     "border-radius: 2px",
     "prefers-reduced-motion: reduce",
 ]:
