@@ -164,6 +164,17 @@
   document.addEventListener('DOMContentLoaded', () => {
     captureAttribution();
     refreshBookingLinks('');
+    const mobileCta = document.querySelector('.mobile-cta');
+    const hero = document.querySelector('.hero');
+    if (mobileCta && hero && !document.querySelector('#diagnostic')) {
+      const syncMobileCta = () => {
+        const revealAt = hero.offsetTop + hero.offsetHeight - (window.innerHeight * 0.3);
+        mobileCta.classList.toggle('is-visible', window.scrollY > revealAt);
+      };
+      window.addEventListener('scroll', syncMobileCta, { passive: true });
+      window.addEventListener('resize', syncMobileCta);
+      syncMobileCta();
+    }
     document.querySelectorAll('[name="email"]').forEach((input) => {
       input.addEventListener('input', () => refreshBookingLinks(input.value));
     });

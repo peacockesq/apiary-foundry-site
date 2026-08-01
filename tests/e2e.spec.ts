@@ -99,16 +99,17 @@ test.describe('Navigation — Mobile Hamburger', () => {
   test('mobile CTA is visible and navigates to /work-with-us/', async ({ page }) => {
     await page.goto('/');
     const cta = page.locator('.mobile-cta');
+    await expect(cta).not.toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight * 0.45));
     await expect(cta).toBeVisible();
-    await cta.click();
-    await expect(page).toHaveURL(/\/work-with-us\/$/);
+    await expect(cta).toHaveAttribute('href', '/work-with-us/');
   });
 });
 
 // ─── Contrast QA ───────────────────────────────────────────────────────
 test.describe('Contrast QA', () => {
   async function getContrastRatio(page: any, fg: string, bg: string): Promise<number> {
-    return page.evaluate((f: string, b: string) => {
+    return page.evaluate(({ f, b }: { f: string; b: string }) => {
       const rgb = (hex: string) => {
         const h = hex.replace('#', '');
         return [
@@ -124,7 +125,7 @@ test.describe('Contrast QA', () => {
       const L1 = lum(rgb(f)) + 0.05;
       const L2 = lum(rgb(b)) + 0.05;
       return L1 > L2 ? L1 / L2 : L2 / L1;
-    }, fg, bg);
+    }, { f: fg, b: bg });
   }
 
   test('nav pills on dark background have sufficient contrast', async ({ page }) => {
@@ -161,6 +162,61 @@ test.describe('Contrast QA', () => {
       // Skip if both are transparent (shouldn't happen for CTAs)
       expect(color).not.toBe('rgba(0, 0, 0, 0)');
     }
+  });
+
+  test('small labels meet WCAG AA on their rendered surfaces', async ({ page }) => {
+    await page.goto('/');
+    const labels = page.locator('.eyebrow, .section-kicker');
+    const count = await labels.count();
+    expect(count).toBeGreaterThan(0);
+    let sawDeepAmber = false;
+    for (let i = 0; i < count; i++) {
+      const label = labels.nth(i);
+      if (!(await label.isVisible())) continue;
+      const audit = await label.evaluate((el: HTMLElement) => {
+        const parse = (value: string) => {
+          const parts = value.match(/[\d.]+/g)?.map(Number) || [];
+          return { rgb: parts.slice(0, 3), alpha: parts[3] ?? 1 };
+        };
+        const luminance = (rgb: number[]) => {
+          const values = rgb.map((value) => {
+            const channel = value / 255;
+            return channel <= 0.03928 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+          });
+          return 0.2126 * values[0] + 0.7152 * values[1] + 0.0722 * values[2];
+        };
+        const foreground = parse(getComputedStyle(el).color).rgb;
+        let background = [246, 241, 232];
+        let node: HTMLElement | null = el;
+        while (node) {
+          const candidate = parse(getComputedStyle(node).backgroundColor);
+          if (candidate.alpha >= 0.99 && candidate.rgb.length === 3) {
+            background = candidate.rgb;
+            break;
+          }
+          node = node.parentElement;
+        }
+        const light = Math.max(luminance(foreground), luminance(background));
+        const dark = Math.min(luminance(foreground), luminance(background));
+        return {
+          color: getComputedStyle(el).color,
+          ratio: (light + 0.05) / (dark + 0.05),
+        };
+      });
+      if (audit.color === 'rgb(140, 79, 0)') sawDeepAmber = true;
+      expect(audit.ratio).toBeGreaterThanOrEqual(4.5);
+    }
+    expect(sawDeepAmber).toBe(true);
+  });
+
+  test('newsletter button preserves AA contrast on hover', async ({ page }) => {
+    await page.goto('/');
+    const button = page.locator('.newsletter-form button');
+    await button.hover();
+    await expect(button).toHaveCSS('background-color', 'rgb(26, 26, 28)');
+    await expect(button).toHaveCSS('color', 'rgb(255, 255, 255)');
+    const ratio = await getContrastRatio(page, '#FFFFFF', '#1A1A1C');
+    expect(ratio).toBeGreaterThanOrEqual(4.5);
   });
 });
 

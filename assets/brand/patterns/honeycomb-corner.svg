@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" fill="none" stroke="#E0A21C" stroke-width="3" opacity=".72">
+<defs><g id="h"><path d="M30 2 L56 17 L56 47 L30 62 L4 47 L4 17 Z"/></g></defs>
+<use href="#h" x="0" y="0"/><use href="#h" x="52" y="30"/><use href="#h" x="104" y="0"/><use href="#h" x="156" y="30"/><use href="#h" x="208" y="0"/>
+<use href="#h" x="0" y="60"/><use href="#h" x="52" y="90"/><use href="#h" x="104" y="60"/><use href="#h" x="156" y="90"/>
+<path d="M0 200 C130 150 230 245 390 175" stroke-width="1" opacity=".5"/>
+</svg>

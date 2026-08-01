@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-labelledby="title desc">
 <title id="title">Apiary Foundry mark</title><desc id="desc">A bee inside a hexagonal frame.</desc>
-<rect width="200" height="220" fill="none"/>
-<path d="M100 8 L184 56 L184 164 L100 212 L16 164 L16 56 Z" fill="#FBF8F1" stroke="#0F0F10" stroke-width="8"/>
+<rect width="200" height="220" fill="#0F0F10"/>
+<path d="M100 8 L184 56 L184 164 L100 212 L16 164 L16 56 Z" fill="#0F0F10" stroke="#E0A21C" stroke-width="8"/>
 <path d="M100 18 L176 61" stroke="#E0A21C" stroke-width="5"/>
-<g style="color:#0F0F10;--gold:#E0A21C;--ink:#0F0F10"><g id="bee" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<g style="color:#FFFFFF;--gold:#E0A21C;--ink:#0F0F10"><g id="bee" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
   <ellipse cx="100" cy="84" rx="17" ry="16" fill="currentColor" stroke="none"/>
   <path d="M90 68 L84 57 M110 68 L116 57"/>
   <path d="M83 90 C49 68 34 84 47 104 C59 119 78 108 88 99"/>
