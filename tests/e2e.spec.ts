@@ -25,6 +25,10 @@ const PR19_QA_PAGES = [
 
 // ─── Visual QA: full-page screenshots ─────────────────────────
 test.describe('Visual QA', () => {
+  // Full-page captures are memory-intensive in Chromium. Keep these tests in one
+  // independently-failing group per project while the rest of the suite stays fully parallel.
+  test.describe.configure({ mode: 'default' });
+
   for (const { path, name } of PAGES) {
     test(`${name} (${path}) — full page`, async ({ page }, testInfo) => {
       await page.goto(path);
