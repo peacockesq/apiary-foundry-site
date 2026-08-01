@@ -113,6 +113,9 @@ test.describe('Navigation — Mobile Hamburger', () => {
     }));
     expect(metrics.scrollWidth).toBe(metrics.clientWidth);
     const skip = page.locator('.skip');
+    const hiddenBox = await skip.boundingBox();
+    expect(hiddenBox).not.toBeNull();
+    expect(hiddenBox!.y + hiddenBox!.height).toBeLessThanOrEqual(0);
     await skip.focus();
     await expect(skip).toBeVisible();
     const box = await skip.boundingBox();
