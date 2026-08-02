@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ASSET_VERSION = "20260801-kit-v2"
+ASSET_VERSION = "20260801-kit-v3"
 LEAD_ASSET_VERSION = "20260801-kit-v2"
 SKIP_PARTS = {".git", "node_modules", "playwright-report", "test-results"}
 
