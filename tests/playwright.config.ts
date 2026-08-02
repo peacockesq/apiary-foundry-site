@@ -1,16 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// Keep concurrent workspaces from borrowing and later losing each other's test server.
-const configuredPort = Number(process.env.PLAYWRIGHT_PORT);
-const workspaceHash = [...process.cwd()].reduce(
-  (hash, character) => ((hash * 31) + character.charCodeAt(0)) >>> 0,
-  0,
-);
-const workspacePort = 10000 + (workspaceHash % 50000);
-const localPort = Number.isInteger(configuredPort) && configuredPort > 0 && configuredPort <= 65535
-  ? configuredPort
-  : workspacePort;
-const localBaseURL = `http://127.0.0.1:${localPort}`;
+import { localBaseURL, localPort } from './runtime-ports';
 
 export default defineConfig({
   testDir: '.',
