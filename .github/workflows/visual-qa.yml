@@ -28,9 +28,18 @@ jobs:
         working-directory: tests
         run: npx playwright install --with-deps chromium
 
-      - name: Run smoke + nav + contrast tests
+      - name: Run complete Chromium acceptance matrix twice
         working-directory: tests
-        run: npx playwright test --project=chromium-desktop --project=chromium-mobile
+        run: |
+          set -euo pipefail
+          for run in 1 2; do
+            echo "::group::Chromium acceptance run ${run}/2"
+            npx playwright test --workers=10 \
+              --project=chromium-desktop \
+              --project=chromium-mobile \
+              --project=chromium-mobile-landscape
+            echo "::endgroup::"
+          done
 
       - name: Upload test results
         if: always()

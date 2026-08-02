@@ -1,4 +1,103 @@
 import { test, expect } from '@playwright/test';
+import { createHash, randomUUID } from 'node:crypto';
+import { open, readFile, stat, unlink } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+const CAPTURE_LOCK_PATH = join(
+  tmpdir(),
+  `apiary-full-page-${createHash('sha256').update(process.cwd()).digest('hex').slice(0, 16)}.lock`,
+);
+const CAPTURE_LOCK_TIMEOUT_MS = 120_000;
+const CAPTURE_LOCK_STALE_MS = 90_000;
+
+type CaptureLockOwner = {
+  pid: number;
+  token: string;
+  createdAt: number;
+};
+
+const wait = (milliseconds: number) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+function processIsAlive(pid: number): boolean {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error: any) {
+    return error?.code === 'EPERM';
+  }
+}
+
+async function readCaptureLockOwner(): Promise<CaptureLockOwner | null> {
+  try {
+    const owner = JSON.parse(await readFile(CAPTURE_LOCK_PATH, 'utf8')) as Partial<CaptureLockOwner>;
+    return Number.isInteger(owner.pid) && typeof owner.token === 'string' && Number.isFinite(owner.createdAt)
+      ? owner as CaptureLockOwner
+      : null;
+  } catch (error: any) {
+    if (error?.code === 'ENOENT') return null;
+    return null;
+  }
+}
+
+async function releaseCaptureLock(token: string): Promise<void> {
+  const owner = await readCaptureLockOwner();
+  if (owner?.token !== token) return;
+
+  try {
+    await unlink(CAPTURE_LOCK_PATH);
+  } catch (error: any) {
+    if (error?.code !== 'ENOENT') throw error;
+  }
+}
+
+async function withFullPageCaptureLock<T>(capture: () => Promise<T>): Promise<T> {
+  const token = `${process.pid}-${randomUUID()}`;
+  const deadline = Date.now() + CAPTURE_LOCK_TIMEOUT_MS;
+
+  while (Date.now() < deadline) {
+    try {
+      const lock = await open(CAPTURE_LOCK_PATH, 'wx');
+      await lock.writeFile(JSON.stringify({ pid: process.pid, token, createdAt: Date.now() }));
+      await lock.close();
+
+      try {
+        return await capture();
+      } finally {
+        await releaseCaptureLock(token);
+      }
+    } catch (error: any) {
+      if (error?.code !== 'EEXIST') throw error;
+
+      const owner = await readCaptureLockOwner();
+      let stale = false;
+      if (owner) {
+        stale = !processIsAlive(owner.pid) || Date.now() - owner.createdAt > CAPTURE_LOCK_STALE_MS;
+      } else {
+        try {
+          const lockStat = await stat(CAPTURE_LOCK_PATH);
+          stale = Date.now() - lockStat.mtimeMs > CAPTURE_LOCK_STALE_MS;
+        } catch (statError: any) {
+          if (statError?.code === 'ENOENT') continue;
+          throw statError;
+        }
+      }
+
+      if (stale) {
+        try {
+          await unlink(CAPTURE_LOCK_PATH);
+        } catch (unlinkError: any) {
+          if (unlinkError?.code !== 'ENOENT') throw unlinkError;
+        }
+        continue;
+      }
+
+      await wait(25 + Math.floor(Math.random() * 50));
+    }
+  }
+
+  throw new Error(`Timed out waiting for the full-page capture lock: ${CAPTURE_LOCK_PATH}`);
+}
 
 const PAGES = [
   { path: '/', name: 'Home' },
@@ -25,8 +124,9 @@ const PR19_QA_PAGES = [
 
 // ─── Visual QA: full-page screenshots ─────────────────────────
 test.describe('Visual QA', () => {
-  // Full-page captures are memory-intensive in Chromium. Keep these tests in one
-  // independently-failing group per project while the rest of the suite stays fully parallel.
+  // Full-page captures are memory-intensive in Chromium. Keep one capture worker per project,
+  // then use a workspace-scoped process lock to prevent simultaneous CDP captures across projects.
+  // The rest of the suite remains fully parallel and every capture keeps independent retry/failure semantics.
   test.describe.configure({ mode: 'default' });
 
   for (const { path, name } of PAGES) {
@@ -35,7 +135,7 @@ test.describe('Visual QA', () => {
       await page.waitForLoadState('networkidle');
       // Hide Mautic iframe for stable screenshots
       await page.addStyleTag({ content: 'iframe[src*="mautic"] { display: none !important; }' });
-      const screenshot = await page.screenshot({ fullPage: true });
+      const screenshot = await withFullPageCaptureLock(() => page.screenshot({ fullPage: true }));
       await testInfo.attach(`page-${name.toLowerCase().replace(/\s+/g, '-')}.png`, {
         body: screenshot,
         contentType: 'image/png',
