@@ -4,6 +4,7 @@ import { localBaseURL, localPort } from './runtime-ports';
 
 export default defineConfig({
   testDir: '.',
+  testMatch: 'e2e.spec.ts',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

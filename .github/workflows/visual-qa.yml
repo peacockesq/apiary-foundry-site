@@ -24,6 +24,12 @@ jobs:
         working-directory: tests
         run: npm ci
 
+      - name: Validate capture mutex
+        working-directory: tests
+        run: |
+          npm run typecheck
+          npm run test:capture-lock
+
       - name: Install Playwright browsers
         working-directory: tests
         run: npx playwright install --with-deps chromium

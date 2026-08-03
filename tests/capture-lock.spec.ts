@@ -52,7 +52,7 @@ async function startAbruptOwner(port: number): Promise<ChildProcessWithoutNullSt
 }
 
 test.describe('full-page capture mutex', () => {
-  test('serializes contenders and recovers after abrupt owner exit', async () => {
+  test('serializes contenders', async () => {
     const port = await getUnusedPort();
     let active = 0;
     let maximumActive = 0;
@@ -64,17 +64,38 @@ test.describe('full-page capture mutex', () => {
       active -= 1;
     }, 2_000)));
     expect(maximumActive).toBe(1);
+  });
 
+  test('releases after the critical section rejects', async () => {
+    const port = await getUnusedPort();
     await expect(withTcpLock(port, async () => {
       throw new Error('expected capture failure');
     }, 2_000)).rejects.toThrow('expected capture failure');
     await expect(withTcpLock(port, async () => 'released', 2_000)).resolves.toBe('released');
+  });
 
+  test('recovers after an abrupt owner exit', async () => {
+    const port = await getUnusedPort();
     const owner = await startAbruptOwner(port);
     const exited = once(owner, 'exit');
     owner.kill('SIGKILL');
     await exited;
 
     await expect(withTcpLock(port, async () => 'recovered', 2_000)).resolves.toBe('recovered');
+  });
+
+  test('times out while a foreign process owns the port', async () => {
+    const port = await getUnusedPort();
+    const owner = await startAbruptOwner(port);
+
+    try {
+      await expect(withTcpLock(port, async () => 'must not run', 100)).rejects.toThrow(
+        `Timed out waiting for full-page capture mutex at 127.0.0.1:${port}`,
+      );
+    } finally {
+      const exited = once(owner, 'exit');
+      owner.kill('SIGKILL');
+      await exited;
+    }
   });
 });

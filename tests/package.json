@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "test": "playwright test",
+    "test:capture-lock": "playwright test --config=capture-lock.config.ts",
     "typecheck": "tsc --noEmit",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
