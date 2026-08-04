@@ -132,8 +132,10 @@ for rel_path, html in all_html:
         errors.append(f"approved navigation lockup missing on /{rel_path.lstrip('/')}")
     if 'class="site-footer"' not in html or 'logo-horizontal-dark.svg' not in html:
         errors.append(f"approved dark footer lockup missing on /{rel_path.lstrip('/')}")
-    if "/assets/site.css?v=20260801-kit-v2" not in html:
+    if "/assets/site.css?v=20260801-kit-v3" not in html:
         errors.append(f"brand-system stylesheet version missing on /{rel_path.lstrip('/')}")
+    if "/assets/site.css?v=20260801-kit-v2" in html:
+        errors.append(f"stale brand-system stylesheet version remains on /{rel_path.lstrip('/')}")
     if "/assets/apiary-lead-capture.js?v=20260801-kit-v2" not in html:
         errors.append(f"lead-capture asset version missing on /{rel_path.lstrip('/')}")
 work_html = (root / "work-with-us" / "index.html").read_text()
