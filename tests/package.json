@@ -3,12 +3,17 @@
   "private": true,
   "scripts": {
     "test": "playwright test",
+    "test:capture-lock": "playwright test --config=capture-lock.config.ts",
+    "test:server-lifecycle": "playwright test --config=server-lifecycle.config.ts",
+    "typecheck": "tsc --noEmit",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:update-snapshots": "playwright test --update-snapshots",
     "install-browsers": "playwright install chromium"
   },
   "devDependencies": {
-    "@playwright/test": "^1.44.0"
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.19.43",
+    "typescript": "^7.0.2"
   }
 }

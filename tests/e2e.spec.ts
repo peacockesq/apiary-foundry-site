@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+import { withFullPageCaptureLock } from './capture-lock';
+
 const PAGES = [
   { path: '/', name: 'Home' },
   { path: '/measurement-engine/', name: 'Measurement Engine' },
@@ -25,13 +27,18 @@ const PR19_QA_PAGES = [
 
 // ─── Visual QA: full-page screenshots ─────────────────────────
 test.describe('Visual QA', () => {
+  // Full-page captures are memory-intensive in Chromium. Keep one capture worker per project,
+  // then use an OS-backed workspace mutex to prevent simultaneous CDP captures across projects.
+  // The rest of the suite remains fully parallel and every capture keeps independent retry/failure semantics.
+  test.describe.configure({ mode: 'default' });
+
   for (const { path, name } of PAGES) {
     test(`${name} (${path}) — full page`, async ({ page }, testInfo) => {
       await page.goto(path);
       await page.waitForLoadState('networkidle');
       // Hide Mautic iframe for stable screenshots
       await page.addStyleTag({ content: 'iframe[src*="mautic"] { display: none !important; }' });
-      const screenshot = await page.screenshot({ fullPage: true });
+      const screenshot = await withFullPageCaptureLock(() => page.screenshot({ fullPage: true }));
       await testInfo.attach(`page-${name.toLowerCase().replace(/\s+/g, '-')}.png`, {
         body: screenshot,
         contentType: 'image/png',

@@ -1,7 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
+import { localBaseURL, localPort } from './runtime-ports';
+
 export default defineConfig({
   testDir: '.',
+  testMatch: process.env.PLAYWRIGHT_SERVER_LIFECYCLE_PROBE === '1'
+    ? 'server-lifecycle-probe.spec.ts'
+    : 'e2e.spec.ts',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -11,7 +16,7 @@ export default defineConfig({
     process.env.CI ? ['github'] : ['list'],
   ],
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:8080',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || localBaseURL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -34,9 +39,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'cd .. && python3 -m http.server 8080',
-    url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI,
+    command: `python3 serve-playwright.py --port ${localPort} --owner-pid ${process.pid} --directory ..`,
+    url: localBaseURL,
+    reuseExistingServer: false,
     timeout: 120000,
   },
 });
