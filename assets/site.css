@@ -293,6 +293,8 @@ h3 {
   align-items: center;
 }
 
+.hero-grid > * { min-width: 0; }
+
 .hero-honeycomb { overflow: visible; border-radius: 0; }
 .hero-honeycomb::before {
   content: "";
@@ -846,7 +848,7 @@ h3 {
   }
   .nav-links a:hover,
   .nav-links a[aria-current="page"] { border-color: var(--honey); background: rgba(224, 162, 28, .14); }
-  .hero-grid { grid-template-columns: 1fr; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
   .hero-grid > :last-child { max-width: 760px; }
 }
 
@@ -903,7 +905,7 @@ h3 {
   .hero::after { display: none; }
   .hero-honeycomb { overflow: hidden; }
   .hero-grid { gap: 36px; }
-  h1 { max-width: 15ch; font-size: clamp(3rem, 15vw, 4.65rem); }
+  h1 { max-width: 15ch; font-size: clamp(2.5rem, 13vw, 4.65rem); }
   h2 { font-size: clamp(2.35rem, 11vw, 3.5rem); }
   .lede { font-size: 1.03rem; }
   .content-section,

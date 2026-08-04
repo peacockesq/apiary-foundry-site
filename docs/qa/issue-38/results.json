@@ -1,0 +1,125 @@
+[
+  {
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "mobileEmulation": true,
+    "httpStatus": 200,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "screenshot": "measurement-engine-375x812.png",
+    "clientWidth": 375,
+    "scrollWidth": 375,
+    "overflowPx": 0,
+    "grid": {
+      "left": 14,
+      "right": 361,
+      "width": 347,
+      "columns": "347px"
+    },
+    "children": [
+      {
+        "className": "",
+        "left": 14,
+        "right": 361,
+        "width": 347
+      },
+      {
+        "className": "data-chain",
+        "left": 14,
+        "right": 361,
+        "width": 347
+      }
+    ],
+    "heading": {
+      "fontSize": "48.75px",
+      "left": 14,
+      "right": 361,
+      "clientWidth": 347,
+      "scrollWidth": 347
+    }
+  },
+  {
+    "viewport": {
+      "width": 412,
+      "height": 915
+    },
+    "mobileEmulation": true,
+    "httpStatus": 200,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "screenshot": "measurement-engine-412x915.png",
+    "clientWidth": 412,
+    "scrollWidth": 412,
+    "overflowPx": 0,
+    "grid": {
+      "left": 14,
+      "right": 398,
+      "width": 384,
+      "columns": "384px"
+    },
+    "children": [
+      {
+        "className": "",
+        "left": 14,
+        "right": 398,
+        "width": 384
+      },
+      {
+        "className": "data-chain",
+        "left": 14,
+        "right": 398,
+        "width": 384
+      }
+    ],
+    "heading": {
+      "fontSize": "53.56px",
+      "left": 14,
+      "right": 398,
+      "clientWidth": 384,
+      "scrollWidth": 384
+    }
+  },
+  {
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "mobileEmulation": false,
+    "httpStatus": 200,
+    "consoleErrors": [],
+    "pageErrors": [],
+    "screenshot": "measurement-engine-1280x800.png",
+    "clientWidth": 1265,
+    "scrollWidth": 1265,
+    "overflowPx": 0,
+    "grid": {
+      "left": 32,
+      "right": 1233,
+      "width": 1201,
+      "columns": "590.203px 533.984px"
+    },
+    "children": [
+      {
+        "className": "",
+        "left": 32,
+        "right": 622.203125,
+        "width": 590.203125
+      },
+      {
+        "className": "data-chain",
+        "left": 699,
+        "right": 1232.984375,
+        "width": 533.984375
+      }
+    ],
+    "heading": {
+      "fontSize": "99.84px",
+      "left": 32,
+      "right": 622.203125,
+      "clientWidth": 590,
+      "scrollWidth": 686
+    }
+  }
+]

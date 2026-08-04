@@ -132,6 +132,49 @@ test.describe('Navigation — Mobile Hamburger', () => {
   });
 });
 
+// ─── Measurement Engine responsive containment ────────────────────────
+const MEASUREMENT_ENGINE_VIEWPORTS = [
+  { width: 375, height: 812 },
+  { width: 412, height: 915 },
+  { width: 1280, height: 800 },
+] as const;
+
+test.describe('Measurement Engine hero containment', () => {
+  for (const viewport of MEASUREMENT_ENGINE_VIEWPORTS) {
+    test(`${viewport.width}x${viewport.height} has no document or hero overflow`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await page.goto('/measurement-engine/');
+      await page.waitForLoadState('networkidle');
+
+      const containment = await page.locator('.hero-grid').evaluate((heroGrid) => {
+        const viewportRight = document.documentElement.clientWidth;
+        return {
+          clientWidth: viewportRight,
+          scrollWidth: document.documentElement.scrollWidth,
+          descendants: Array.from(heroGrid.querySelectorAll('*')).map((child) => {
+            const rect = child.getBoundingClientRect();
+            return {
+              className: child.className,
+              tagName: child.tagName,
+              left: rect.left,
+              right: rect.right,
+              width: rect.width,
+            };
+          }),
+        };
+      });
+
+      expect(containment.scrollWidth).toBe(containment.clientWidth);
+      for (const child of containment.descendants) {
+        expect(
+          child.right,
+          `hero descendant ${child.tagName}.${child.className || '(unclassed)'} ends at ${child.right}px`,
+        ).toBeLessThanOrEqual(containment.clientWidth);
+      }
+    });
+  }
+});
+
 // ─── Contrast QA ───────────────────────────────────────────────────────
 test.describe('Contrast QA', () => {
   async function getContrastRatio(page: any, fg: string, bg: string): Promise<number> {
