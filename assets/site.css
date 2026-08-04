@@ -15,7 +15,7 @@
   --muted: var(--af-graphite);
   --white: var(--af-white);
   --amber: var(--af-honey);
-  --amber-deep: #8C4F00;
+  --amber-deep: var(--af-amber-deep);
   --gold: var(--af-amber);
   --ochre: var(--af-ochre);
   --green: var(--af-success);
