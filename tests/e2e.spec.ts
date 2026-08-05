@@ -167,6 +167,10 @@ test.describe('Measurement Engine hero containment', () => {
       expect(containment.scrollWidth).toBe(containment.clientWidth);
       for (const child of containment.descendants) {
         expect(
+          child.left,
+          `hero descendant ${child.tagName}.${child.className || '(unclassed)'} starts at ${child.left}px`,
+        ).toBeGreaterThanOrEqual(0);
+        expect(
           child.right,
           `hero descendant ${child.tagName}.${child.className || '(unclassed)'} ends at ${child.right}px`,
         ).toBeLessThanOrEqual(containment.clientWidth);
